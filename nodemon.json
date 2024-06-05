@@ -1,5 +1,5 @@
 {
-  "watch": ["patterns", ".env"],
+  "watch": ["src", ".env"],
   "ext": ".ts,.js,.yaml,.json",
   "ignore": []
 }

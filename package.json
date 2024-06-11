@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/DaiNhanDev/ncjsc-api#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
@@ -33,6 +35,7 @@
     "@babel/core": "^7.23.6",
     "@babel/node": "^7.22.19",
     "@babel/preset-env": "^7.23.6",
+    "@types/bcrypt": "^5.0.2",
     "@types/compression": "^1.7.5",
     "@types/concurrently": "^7.0.0",
     "@types/cors": "^2.8.17",

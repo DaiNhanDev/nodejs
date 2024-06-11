@@ -1,7 +1,7 @@
 import { countConnect } from "../helpers/check.connect";
 import mongoose from "mongoose";
 
-const connectString = "mongodb://127.0.0.1:27017/shopping_app";
+const connectString = "mongodb://127.0.0.1:27017/shopDev";
 
 class Database {
   static instance: Database;

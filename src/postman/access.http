@@ -1,0 +1,3 @@
+@url_dev=http://localhost:8080/api
+
+POST {{url_dev}}/v1/access/shop/signup

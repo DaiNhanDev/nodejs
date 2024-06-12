@@ -10,7 +10,11 @@ import { Router } from "express";
 // import { loginSchema, registerSchema } from "../../validation/user";
 const route = Router();
 
-route.post("/shop/signup", accessController.signup);
+route.get("/shop", (req, res) => {
+   return res.json({
+    msg: 'ssss'
+  })
+});
 // route.post("/login", validateRequest(loginSchema), loginUser);
 // route.post("/forgot-password", forgotPassword);
 // route.post("/reset-password", resetPassword);

@@ -1,0 +1,13 @@
+components:
+  schemas:
+    Params:
+      type: object
+      properties:
+        page:
+          type: number
+          example: 1
+        limit:
+          type: number
+          example: 25
+        search:
+          type: string

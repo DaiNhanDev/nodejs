@@ -1,7 +1,7 @@
 class AccessController {
   signup = async (req, res, next) => {
     try {
-      console.log('=====> Body: ', req.body);
+      console.log('=====> Body: ', req);
 
       return res.status(201).json({
         code: '201',

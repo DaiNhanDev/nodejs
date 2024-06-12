@@ -1,21 +1,26 @@
-import express, { Express } from "express";
+import express, { Express, urlencoded } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
 import Database from "./db/init";
 import appRouter from "./routes";
+import docsRouter from "./routes/swagger";
 
 const app: Express = express();
-const PORT = 8080;
+const PORT = 8000;
 app.set("port", process.env.PORT || PORT);
 
 // init middlewares
 app.use(morgan("combined"));
 app.use(helmet());
 app.use(compression());
-
+app.use(express.json());
+app.use(urlencoded({
+  extended: true
+}));
 // connect Database
 Database.getInstance();
 app.use("/api", appRouter);
+app.use("/api/docs", docsRouter);
 
 export { app };

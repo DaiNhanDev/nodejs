@@ -1,0 +1,79 @@
+tags:
+  - name: Auth
+    description: Authentication
+paths:
+  /v1/auth/register:
+    post:
+      summary: Register as user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                  description: must be unique
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  description: At least one number and one letter
+              example:
+                name:  nhantest
+                email: nhantest@example.com
+                password: password1
+      responses:
+        "201":
+          description: Created
+        "400":
+          description:  Bad Request
+          
+  /v1/auth/login:
+    post:
+      summary: Login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              example:
+                email: name@example.com
+                password: password1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/User'
+                  access_token:
+                    type: string
+                    example: token
+
+        "400":
+          description: Invalid email or password

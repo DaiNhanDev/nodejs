@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
-const { Schema, model, Types } = mongoose
+const { Schema, model } = mongoose
 
 const DOCUMENT_NAME = 'Key';
 const COLLECTION_NAME = 'Keys';
 const keySchema = new mongoose.Schema({
-    name: {
+    userId: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'Shop'

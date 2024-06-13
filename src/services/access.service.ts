@@ -1,26 +1,35 @@
-import { shopModel } from "models/shop.model";
+import { shopModel } from "models";
 import { encryptSync } from "utils/encrypt";
 import { ROLE_SHOP } from "../constants";
 import { generateKeyPairSync } from "crypto";
+import { shopRepository } from "repositories";
+
 
 class AccessService {
-  static signUp({ email, name, password }) {
-    return new Promise(async (resolve, reject) => {
-      const findEmail = await shopModel.findOne({ email }).lean();
-      if (!!findEmail) {
-        return resolve({
+  static async signUp({ email, name, password }) {
+    try {
+      const shopExist: boolean = await shopRepository.shopExist(email);
+      if (shopExist) {
+        return {
           code: "xxxx",
           message: "Shop already registered!",
-        });
+        };
       }
       const passwordHash = encryptSync(password);
-
-      const newShop = await shopModel.create({
-        name,
+      const newShop = shopRepository.createShop({
         email,
+        name,
         password: passwordHash,
-        roles: [ROLE_SHOP.SHOP],
-      });
+        status: "inactive",
+        verify: false,
+        roles: [],
+      })
+      // const newShop = await shopModel.create({
+      //   name,
+      //   email,
+      //   password: passwordHash,
+      //   roles: [ROLE_SHOP.SHOP],
+      // });
 
       if (!!newShop) {
         const { publicKey, privateKey } = generateKeyPairSync("rsa", {
@@ -34,9 +43,11 @@ class AccessService {
             format: "pem",
           },
         });
-        console.log('======> generateKeyPairSync', {publicKey, privateKey})
+        console.log("======> generateKeyPairSync", { publicKey, privateKey });
       }
-    });
+    } catch (error) {
+      
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 // const url = 'http://128.199.232.195'
-const url = `http://localhost:${process.env.PORT || 8080}`;
+const url = `http://localhost:${process.env.PORT || 8000}`;
 
 const swaggerOption = {
   definition: {

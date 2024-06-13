@@ -1,42 +1,44 @@
-import mongoose from 'mongoose';
+import { Schema, model } from "mongoose";
+import { IShop } from "types";
 
-const { Schema, model, Types } = mongoose
-
-const DOCUMENT_NAME = 'Shop';
-const COLLECTION_NAME = 'Shops';
-const shopSchema = new mongoose.Schema({
+const DOCUMENT_NAME = "Shop";
+const COLLECTION_NAME = "Shops";
+const shopSchema = new Schema<IShop>(
+  {
     name: {
-        type: String,
-        trim: true,
-        required: true,
-        maxLength: 150
+      type: String,
+      trim: true,
+      required: true,
+      maxLength: 150,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     status: {
-        type: String,
-        enum: ['active', 'inactive'],
-        default: 'inactive'
+      type: String,
+      enum: ["active", "inactive"],
+      default: "inactive",
     },
     verify: {
-        type: Schema.Types.Boolean,
-        default: false
+      type: Schema.Types.Boolean,
+      default: false,
     },
     roles: {
-        type: Array,
-        default: []
+      type: [{ type: String }],
+      default: [],
     },
-}, {
+  },
+  {
     timestamps: true,
-    collection: COLLECTION_NAME
-});
+    collection: COLLECTION_NAME,
+  }
+);
 
-export const shopModel =  model(DOCUMENT_NAME, shopSchema);
+export const shopModel = model(DOCUMENT_NAME, shopSchema);

@@ -1,35 +1,35 @@
-components:
-  schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-        email:
-          type: string
-          format: email
-          example: name@example.com
-        name:
-          type: string
-          example: name
-        company_id:
-          type: number
-          example: 1
-        manager_id:
-          type: number
-          example: 1
-        store_id:
-          type: number
-          example: 1
-        role_id:
-          type: number
-          example: 1
-        # createdAt:
-        #   type: string
-        #   format: date-time
-        #   example: 2024-02-28T13:14:30.550Z
-        # updatedAt:
-        #   type: string
-        #   format: date-time
-        #   example: 2024-02-28T13:14:30.550Z
+# components:
+#   schemas:
+#     User:
+#       type: object
+#       properties:
+#         id:
+#           type: number
+#           example: 1
+#         email:
+#           type: string
+#           format: email
+#           example: name@example.com
+#         name:
+#           type: string
+#           example: name
+#         company_id:
+#           type: number
+#           example: 1
+#         manager_id:
+#           type: number
+#           example: 1
+#         store_id:
+#           type: number
+#           example: 1
+#         role_id:
+#           type: number
+#           example: 1
+#         # createdAt:
+#         #   type: string
+#         #   format: date-time
+#         #   example: 2024-02-28T13:14:30.550Z
+#         # updatedAt:
+#         #   type: string
+#         #   format: date-time
+#         #   example: 2024-02-28T13:14:30.550Z

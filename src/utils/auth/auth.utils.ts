@@ -1,6 +1,6 @@
 import JWT from "jsonwebtoken";
 
-export const createToken = async (payload, publicKey, privateKey) => {
+export const createTokenPair = async (payload, publicKey, privateKey) => {
   try {
     const accessToken = await JWT.sign(payload, privateKey, {
       algorithm: "RS256",

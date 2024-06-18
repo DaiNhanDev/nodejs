@@ -1,10 +1,11 @@
-import { IBase } from "types/base";
+import { RoleType } from "constants/index";
+import { IBase } from "types";
 
 export interface IShop extends IBase {
   name: string;
   email: string;
   password: string;
-  status: 'inactive' | 'active' ;
+  status: "inactive" | "active";
   verify: boolean;
-  roles: string[];
+  roles: RoleType[];
 }

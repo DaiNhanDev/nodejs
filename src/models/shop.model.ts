@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IShop } from "types";
+import { IShop } from "@src/types";
 
 const DOCUMENT_NAME = "Shop";
 const COLLECTION_NAME = "Shops";
@@ -38,7 +38,7 @@ const shopSchema = new Schema<IShop>(
   {
     timestamps: true,
     collection: COLLECTION_NAME,
-  }
+  },
 );
 
 export const shopModel = model(DOCUMENT_NAME, shopSchema);

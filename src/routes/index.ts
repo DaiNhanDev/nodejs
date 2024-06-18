@@ -2,12 +2,11 @@ import { Router } from "express";
 import accessRoute from "./v1/access";
 
 const appRouter = Router();
-const getV1Path = (path) => `/v1${path}`
 
 // all routes
 const appRoutesV1 = [
   {
-    path: getV1Path('/access'),
+    path: "/access",
     router: accessRoute,
   },
 ];

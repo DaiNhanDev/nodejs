@@ -1,42 +1,42 @@
-# tags:
-#   - name: Auth
-#     description: Authentication
-# paths:
-#   /v1/auth/register:
-#     post:
-#       summary: Register as user
-#       tags: [Auth]
-#       requestBody:
-#         required: true
-#         content:
-#           application/json:
-#             schema:
-#               type: object
-#               required:
-#                 - name
-#                 - email
-#                 - password
-#               properties:
-#                 name:
-#                   type: string
-#                 email:
-#                   type: string
-#                   format: email
-#                   description: must be unique
-#                 password:
-#                   type: string
-#                   format: password
-#                   minLength: 8
-#                   description: At least one number and one letter
-#               example:
-#                 name:  nhantest
-#                 email: nhantest@example.com
-#                 password: password1
-#       responses:
-#         "201":
-#           description: Created
-#         "400":
-#           description:  Bad Request
+tags:
+  - name: Auth
+    description: Authentication
+paths:
+  /access/shop/signup:
+    post:
+      summary: Register as user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                  description: must be unique
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  description: At least one number and one letter
+              example:
+                name:  nhantest
+                email: nhantest@example.com
+                password: password1
+      responses:
+        "201":
+          description: Created
+        "400":
+          description:  Bad Request
           
 #   /v1/auth/login:
 #     post:

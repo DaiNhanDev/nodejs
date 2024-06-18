@@ -12,9 +12,8 @@ const server = app.listen(app.get("port"), () => {
   console.log("  Press CTRL-C to stop\n");
 });
 
-process.on('SIGNIN', () => {
-  server.close(() => console.log('Exit Server Express'));
-})
+process.on("SIGNIN", () => {
+  server.close(() => console.log("Exit Server Express"));
+});
 
 export default server;
-

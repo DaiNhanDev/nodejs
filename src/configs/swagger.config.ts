@@ -10,8 +10,11 @@ const swaggerOption = {
     },
     servers: [
       {
-        url: `${url}/api`,
+        url: `${url}/api/v1`,
       },
+      // {
+      //   url: `${url}/api/v2`,
+      // },
     ],
     components: {
       securitySchemes: {

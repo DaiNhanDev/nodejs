@@ -9,13 +9,13 @@ const validateRequest = (schema: Schema) => {
     } else {
       const { details } = error;
       const messages = details
-        .map(i => {
+        .map((i) => {
           if (i.type.includes(".unknown")) return null;
           if (i.type.includes(".empty") || i.type.includes(".required"))
             return `${i.context.label}_is_required`.toUpperCase();
           return i.message.toUpperCase();
         })
-        .filter(f => !!f);
+        .filter((f) => !!f);
       if (messages.length > 0) {
         res.status(400).json({ code: 400, messages });
       } else {

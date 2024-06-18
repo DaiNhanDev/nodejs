@@ -11,16 +11,18 @@ const PORT = 8000;
 app.set("port", process.env.PORT || PORT);
 
 // init middlewares
-app.use(morgan("combined"));
+app.use(morgan("common"));
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
-app.use(urlencoded({
-  extended: true
-}));
+app.use(
+  urlencoded({
+    extended: true,
+  }),
+);
 // connect Database
 Database.getInstance();
-app.use("/api", appRouter);
+app.use("/api/v1", appRouter);
 app.use("/api/docs", docsRouter);
 
 export { app };

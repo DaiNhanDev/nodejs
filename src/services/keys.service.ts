@@ -1,4 +1,4 @@
-import { keyTokenModel } from "models/keytoken.model";
+import { keyTokenModel } from "@src/models";
 
 class KeyTokenService {
   static createKeyToken({ userId, publicKey }) {

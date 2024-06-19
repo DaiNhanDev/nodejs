@@ -6,6 +6,8 @@ paths:
     post:
       summary: Register as user
       tags: [Auth]
+      security:
+        - ApiKeyAuth: ['sssss']
       requestBody:
         required: true
         content:

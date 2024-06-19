@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IShop } from "@src/types";
+import { IShop } from "types";
 
 const DOCUMENT_NAME = "Shop";
 const COLLECTION_NAME = "Shops";

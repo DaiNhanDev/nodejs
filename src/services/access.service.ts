@@ -1,10 +1,7 @@
-import { shopModel } from "models";
-import { IShop } from "types";
-
-import { encryptSync } from "@src/utils";
-import { ROLE_SHOP } from "../constants";
+import { createTokenPair, encryptSync, getInfoData } from "../utils";
 import { generateKeyPairSync } from "crypto";
 import { shopRepository } from "../repositories";
+import { KeyTokenService } from "./keys.service";
 
 class AccessService {
   static async signUp({ email, name, password }) {
@@ -17,7 +14,6 @@ class AccessService {
         };
       }
       const passwordHash = encryptSync(password);
-      console.log("====> passwordHash", passwordHash);
 
       const newShop = await shopRepository.createShop({
         email,
@@ -27,7 +23,6 @@ class AccessService {
         verify: false,
         roles: ["ADMIN"],
       });
-      // console.log('====> new Shop: ', newShop);
 
       if (!!newShop) {
         const { publicKey, privateKey } = generateKeyPairSync("rsa", {
@@ -41,7 +36,33 @@ class AccessService {
             format: "pem",
           },
         });
-        console.log("======> generateKeyPairSync", { publicKey, privateKey });
+
+        const publicKeyString = await KeyTokenService.createKeyToken({
+          userId: newShop._id,
+          publicKey,
+        });
+
+        if (!publicKeyString) {
+          return {
+            code: "xxxx",
+            message: "publicKeyString error!",
+          };
+        }
+        const { accessToken, refreshToken } = await createTokenPair(
+          { userId: newShop._id, email },
+          privateKey,
+        );
+
+        return {
+          code: 201,
+          metadata: {
+            shop: getInfoData(["_id", "name", "email"], newShop),
+            tokens: {
+              accessToken,
+              refreshToken,
+            },
+          },
+        };
       }
       return {
         code: "xxxx",

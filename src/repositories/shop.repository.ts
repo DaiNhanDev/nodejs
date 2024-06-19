@@ -1,16 +1,16 @@
-import { shopModel } from "models";
-import { IShop } from "types";
+import { shopModel } from "../models";
+import { IShop } from "../types";
 
 interface IShopRepository {
   shopExist(email: string): Promise<boolean>;
   createShop(
-    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">
+    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
   ): Promise<IShop>;
 }
 
 class ShopRepository implements IShopRepository {
   createShop(
-    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">
+    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
   ): Promise<IShop> {
     return new Promise((resolve, reject) =>
       shopModel
@@ -19,7 +19,7 @@ class ShopRepository implements IShopRepository {
           console.log("==> DATA: ", data);
           return resolve(data);
         })
-        .catch((error) => reject(error))
+        .catch((error) => reject(error)),
     );
   }
   shopExist(email: string): Promise<boolean> {
@@ -27,15 +27,12 @@ class ShopRepository implements IShopRepository {
       shopModel
         .findOne({ email })
         .lean()
-        .then((emailExist) => {
-          console.log("====>emailExist ", emailExist);
-          return resolve(!!emailExist);
-        })
-        .catch((error) => reject(error))
+        .then((emailExist) => resolve(!!emailExist))
+        .catch((error) => reject(error)),
     );
   }
 }
 
 const shopRepository = new ShopRepository();
 
-export { shopRepository };
+export { shopRepository, IShopRepository };

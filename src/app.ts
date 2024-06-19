@@ -22,7 +22,8 @@ app.use(
 );
 // connect Database
 Database.getInstance();
-app.use("/api/v1", appRouter);
 app.use("/api/docs", docsRouter);
+
+app.use("/api/v1", appRouter);
 
 export { app };

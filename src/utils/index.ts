@@ -1,3 +1,8 @@
+import { pick } from "lodash";
+
 export * from "./auth/auth.utils";
 export * from "./encrypt";
-// export * from './jwt';
+export * from "./auth/auth.utils";
+
+export const getInfoData = (fields: string[], object = {}) =>
+  pick(object, fields);

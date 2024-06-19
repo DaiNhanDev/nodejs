@@ -1,17 +1,18 @@
-import { keyTokenModel } from "@src/models";
+import { keyRepository } from "../repositories";
 
 class KeyTokenService {
   static createKeyToken({ userId, publicKey }) {
     return new Promise(async (resolve, reject) => {
       try {
         const publicKeyString = publicKey.toString();
-        const tokens = await keyTokenModel.create({
-          user: userId,
+        const tokens = await keyRepository.createKeyToken({
+          userId,
           publicKey: publicKeyString,
         });
-        resolve(tokens ? publicKeyString : null);
+        console.log("====> tokens", tokens);
+        return resolve(tokens ? tokens.publicKey : null);
       } catch (error) {
-        reject(error);
+        return reject(error);
       }
     });
   }

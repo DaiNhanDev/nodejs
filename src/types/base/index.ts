@@ -1,7 +1,7 @@
-import { Schema } from "mongoose";
+import { Schema, SchemaDefinitionProperty } from "mongoose";
 
 export interface IBase {
   _id: Schema.Types.ObjectId;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: SchemaDefinitionProperty<number>;
+  updatedAt: SchemaDefinitionProperty<number>;
 }

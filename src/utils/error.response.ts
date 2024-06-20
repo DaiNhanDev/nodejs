@@ -1,27 +1,38 @@
-import HttpStatus, { ReasonPhrases } from "http-status-codes";
+import HttpStatus from "http-status-codes";
 
 class ErrorResponse extends Error {
-  status: number;
-  constructor(message, status) {
+  statusCode: number;
+  constructor(message: string, statusCode?: number) {
     super(message);
-    this.status = status;
+    this.statusCode = statusCode;
   }
 }
 
 class ConflictRequestError extends ErrorResponse {
-  constructor(message = ReasonPhrases.CONFLICT, statusCode = HttpStatus.CONFLICT) {
+  constructor(
+    message = HttpStatus.getStatusText(HttpStatus.CONFLICT),
+    statusCode = HttpStatus.CONFLICT,
+  ) {
     super(message, statusCode);
   }
 }
 
 class BadRequestError extends ErrorResponse {
-  constructor(message = ReasonPhrases.BAD_REQUEST, statusCode = HttpStatus.BAD_REQUEST) {
+  constructor(
+    message = HttpStatus.getStatusText(HttpStatus.BAD_REQUEST),
+    statusCode = HttpStatus.BAD_REQUEST,
+  ) {
     super(message, statusCode);
   }
 }
 
-export {
-  ErrorResponse,
-  ConflictRequestError,
-  BadRequestError
+class AuthenError extends ErrorResponse {
+  constructor(
+    message = HttpStatus.getStatusText(HttpStatus.BAD_REQUEST),
+    statusCode = HttpStatus.BAD_REQUEST,
+  ) {
+    super(message, statusCode);
+  }
 }
+
+export { ErrorResponse, ConflictRequestError, BadRequestError, AuthenError };

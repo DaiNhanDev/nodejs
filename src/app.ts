@@ -5,6 +5,7 @@ import compression from "compression";
 import Database from "./db/init";
 import appRouter from "./routes";
 import docsRouter from "./routes/swagger";
+import { errorHandler, notFoundErrorHandler } from "./middlewares/error";
 
 const app: Express = express();
 const PORT = 8000;
@@ -26,4 +27,7 @@ app.use("/api/docs", docsRouter);
 
 app.use("/api/v1", appRouter);
 
+// handle error
+app.use(notFoundErrorHandler);
+app.use(errorHandler);
 export { app };

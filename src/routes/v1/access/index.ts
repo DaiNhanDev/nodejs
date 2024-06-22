@@ -1,3 +1,4 @@
+import { catchError } from "../../../utils/handleError";
 import accessController from "../../../controllers/access.controller";
 import { Router } from "express";
 // import { validateRequest } from "../../middlewares";
@@ -10,7 +11,7 @@ import { Router } from "express";
 // import { loginSchema, registerSchema } from "../../validation/user";
 const route = Router();
 
-route.post("/shop/signup", accessController.signup);
+route.post("/shop/signup", catchError(accessController.signup));
 
 // route.post("/login", validateRequest(loginSchema), loginUser);
 // route.post("/forgot-password", forgotPassword);

@@ -1,20 +1,19 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { AccessService } from "../services/access.service";
+import { CREATED } from "../utils/success.response";
+import { IShop } from "types";
 
 class AccessController {
-  signup = async (req: Request, res: Response, next: NextFunction) => {
+  signup = async (req: Request, res: Response) => {
     const { email = "", password = "", name = "" } = req.body;
-    const data = await AccessService.signUp({
+    const metadata = await AccessService.signUp({
       email,
       password,
       name,
     });
-    try {
-      return res.status(201).json(data);
-    } catch (error) {
-      console.log("====> error", error);
-      next(error);
-    }
+    return new CREATED<IShop>({
+      metadata,
+    }).send(res);
   };
 }
 

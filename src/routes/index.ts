@@ -1,6 +1,6 @@
 import { Router } from "express";
 import accessRoute from "./v1/access";
-import { apiKey, checkPermission } from "../utils";
+// import { apiKey, checkPermission } from "../middlewares/checkApiKey";
 
 const appRouter = Router();
 
@@ -11,11 +11,11 @@ const appRoutesV1 = [
     router: accessRoute,
   },
 ];
-appRouter.use(apiKey);
-appRouter.use(checkPermission("0000"));
+// appRouter.use(apiKey);
+// appRouter.use(checkPermission("0000"));
 
-appRoutesV1.forEach((route) => {
-  appRouter.use(route.path, route.router);
+appRoutesV1.forEach(({ path, router }) => {
+  appRouter.use(path, router);
 });
 
 export default appRouter;

@@ -6,9 +6,28 @@ interface IShopRepository {
   createShop(
     shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
   ): Promise<IShop>;
+  findByEmail(email: string, select): Promise<IShop>;
 }
 
 class ShopRepository implements IShopRepository {
+  findByEmail(
+    email: string,
+    select = {
+      email: 1,
+      password: 1,
+      name: 1,
+      roles: 1,
+    },
+  ): Promise<IShop> {
+    return new Promise((resolve, reject) =>
+      shopModel
+        .findOne({ email })
+        .select(select)
+        .lean()
+        .then((shop) => resolve(shop))
+        .catch((error) => reject(error)),
+    );
+  }
   createShop(
     shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
   ): Promise<IShop> {

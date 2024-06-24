@@ -26,13 +26,13 @@ class BadRequestError extends ErrorResponse {
   }
 }
 
-class AuthenError extends ErrorResponse {
+class AuthError extends ErrorResponse {
   constructor(
-    message = HttpStatus.getStatusText(HttpStatus.BAD_REQUEST),
-    statusCode = HttpStatus.BAD_REQUEST,
+    message = HttpStatus.getStatusText(HttpStatus.UNAUTHORIZED),
+    statusCode = HttpStatus.UNAUTHORIZED,
   ) {
     super(message, statusCode);
   }
 }
 
-export { ErrorResponse, ConflictRequestError, BadRequestError, AuthenError };
+export { ErrorResponse, ConflictRequestError, BadRequestError, AuthError };

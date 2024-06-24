@@ -1,13 +1,13 @@
 import { createTokenPair, encryptSync, getInfoData } from "../utils";
-import { generateKeyPairSync } from "crypto";
 import { compare } from "bcrypt";
 import { shopRepository } from "../repositories";
 import { KeyTokenService } from "./keys.service";
 import {
   BadRequestError,
   ConflictRequestError,
-  AuthenError,
+  AuthError,
 } from "../utils/error.response";
+import { generateKeyPair } from "../utils/crypto";
 
 class AccessService {
   static async signUp({ email, name, password }) {
@@ -28,21 +28,12 @@ class AccessService {
     });
 
     if (!!newShop) {
-      const { publicKey, privateKey } = generateKeyPairSync("rsa", {
-        modulusLength: 4096,
-        publicKeyEncoding: {
-          type: "pkcs1",
-          format: "pem",
-        },
-        privateKeyEncoding: {
-          type: "pkcs1",
-          format: "pem",
-        },
-      });
+      const { publicKey, privateKey } = await generateKeyPair();
 
       const publicKeyString = await KeyTokenService.createKeyToken({
         userId: newShop._id,
         publicKey,
+        privateKey
       });
 
       if (!publicKeyString) {
@@ -53,7 +44,7 @@ class AccessService {
       }
       const { accessToken, refreshToken } = await createTokenPair(
         { userId: newShop._id, email },
-        privateKey,
+        privateKey
       );
 
       return {
@@ -75,7 +66,31 @@ class AccessService {
     if (!foundShop) throw new BadRequestError("Shop not registered");
 
     const match = compare(passowrd, foundShop.password);
-    if (!match) throw new AuthenError();
+    if (!match) throw new AuthError();
+
+    const { publicKey, privateKey } = await generateKeyPair();
+
+    const publicKeyString = await KeyTokenService.createKeyToken({
+      userId: foundShop._id,
+      publicKey,
+      privateKey
+    });
+
+    if (!publicKeyString) {
+      return {
+        code: "xxxx",
+        message: "publicKeyString error!",
+      };
+    }
+
+    const tokens = await createTokenPair(
+      { userId: foundShop._id, email },
+      privateKey
+    );
+    return {
+      shop: getInfoData(["_id", "name", "email"], foundShop),
+      tokens,
+    };
   }
 }
 

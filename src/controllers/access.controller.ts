@@ -15,6 +15,10 @@ class AccessController {
       metadata,
     }).send(res);
   };
+
+  login = async (req: Request, res: Response) => {
+    const { email = "", passowrd = "" } = req.body;
+  };
 }
 
 export default new AccessController();

@@ -11,7 +11,7 @@ class ErrorResponse extends Error {
 class ConflictRequestError extends ErrorResponse {
   constructor(
     message = HttpStatus.getStatusText(HttpStatus.CONFLICT),
-    statusCode = HttpStatus.CONFLICT,
+    statusCode = HttpStatus.CONFLICT
   ) {
     super(message, statusCode);
   }
@@ -20,7 +20,7 @@ class ConflictRequestError extends ErrorResponse {
 class BadRequestError extends ErrorResponse {
   constructor(
     message = HttpStatus.getStatusText(HttpStatus.BAD_REQUEST),
-    statusCode = HttpStatus.BAD_REQUEST,
+    statusCode = HttpStatus.BAD_REQUEST
   ) {
     super(message, statusCode);
   }
@@ -29,10 +29,25 @@ class BadRequestError extends ErrorResponse {
 class AuthError extends ErrorResponse {
   constructor(
     message = HttpStatus.getStatusText(HttpStatus.UNAUTHORIZED),
-    statusCode = HttpStatus.UNAUTHORIZED,
+    statusCode = HttpStatus.UNAUTHORIZED
   ) {
     super(message, statusCode);
   }
 }
 
-export { ErrorResponse, ConflictRequestError, BadRequestError, AuthError };
+class FobidenError extends ErrorResponse {
+  constructor(
+    message = HttpStatus.getStatusText(HttpStatus.FORBIDDEN),
+    statusCode = HttpStatus.FORBIDDEN
+  ) {
+    super(message, statusCode);
+  }
+}
+
+export {
+  ErrorResponse,
+  ConflictRequestError,
+  BadRequestError,
+  AuthError,
+  FobidenError,
+};

@@ -36,10 +36,10 @@ class CREATED<T> extends SuccessResponse<T> {
     statusCode = HttpStatus.CREATED,
     reasonStatusCode = RESPONSE_MESSAGE.OK,
     metadata,
-    options = {},
+    // options = {},
   }) {
     super({ message, statusCode, reasonStatusCode, metadata });
-    this.options = options;
+    // this.options = options;
   }
 }
 

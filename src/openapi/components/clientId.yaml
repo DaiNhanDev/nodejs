@@ -1,13 +1,8 @@
 components:
   securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-KEY 
     clientId:
       type: apiKey
       in: header
       name: x-client-id
 security:
-  - ApiKeyAuth: []   
-  - clientId: []  
+  - clientId: []   

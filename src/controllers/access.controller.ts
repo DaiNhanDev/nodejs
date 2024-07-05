@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { AccessService } from "../services/access.service";
-import { CREATED } from "../utils/success.response";
+import { CREATED, SuccessResponse } from "../utils/success.response";
 import { IShop } from "types";
+import { CustomRequest } from "types/customDefinition";
 
 class AccessController {
   signup = async (req: Request, res: Response) => {
@@ -17,7 +18,31 @@ class AccessController {
   };
 
   login = async (req: Request, res: Response) => {
-    const { email = "", passowrd = "" } = req.body;
+    const { email = "", password = "" } = req.body;
+    const metadata = await AccessService.login({
+      email,
+      password,
+    });
+    return new SuccessResponse<IShop>({
+      metadata,
+    }).send(res);
+  };
+
+  logout = async (req: CustomRequest, res: Response) => {
+    const metadata = await AccessService.logout(req.keyStore._id);
+    return new SuccessResponse<IShop>({
+      metadata,
+      message: "Logout Success",
+    }).send(res);
+  };
+
+  handleRefresToken = async (req: CustomRequest, res: Response) => {
+    console.log('=======> refreshToken', req.body.refreshToken);
+    const metadata = await AccessService.handleRefreshToken(req.body.refreshToken);
+    return new SuccessResponse<IShop>({
+      metadata,
+      message: "Logout Success",
+    }).send(res);
   };
 }
 

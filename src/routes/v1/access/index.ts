@@ -1,20 +1,12 @@
 import { catchError } from "../../../utils/handleError";
 import accessController from "../../../controllers/access.controller";
 import { Router } from "express";
-// import { validateRequest } from "../../middlewares";
-// import {
-//   // forgotPassword,
-//   loginUser,
-//   registerUser,
-//   // resetPassword,
-// } from "../../controllers/auth";
-// import { loginSchema, registerSchema } from "../../validation/user";
+import requireUser from "../../../middlewares/requiresUser";
 const route = Router();
 
 route.post("/shop/signup", catchError(accessController.signup));
-
-// route.post("/login", validateRequest(loginSchema), loginUser);
-// route.post("/forgot-password", forgotPassword);
-// route.post("/reset-password", resetPassword);
+route.post("/shop/login", catchError(accessController.login));
+route.post("/shop/logout", requireUser, catchError(accessController.logout));
+route.post("/shop/refresh-token", requireUser, catchError(accessController.handleRefresToken));
 
 export default route;

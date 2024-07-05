@@ -6,6 +6,7 @@ import Database from "./db/init";
 import appRouter from "./routes";
 import docsRouter from "./routes/swagger";
 import { errorHandler, notFoundErrorHandler } from "./middlewares/error";
+import deserializeUser from "./middlewares/deserializeUser";
 
 const app: Express = express();
 const PORT = 8000;
@@ -23,6 +24,8 @@ app.use(
 );
 // connect Database
 Database.getInstance();
+
+app.use(deserializeUser);
 app.use("/api/docs", docsRouter);
 
 app.use("/api/v1", appRouter);

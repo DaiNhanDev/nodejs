@@ -17,6 +17,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction,
 ): void => {
+  console.log('=====> error', error);
   if (!(error instanceof ErrorResponse)) {
     const statusCode = error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR;
     const message = HttpStatus.getStatusText(HttpStatus.INTERNAL_SERVER_ERROR);

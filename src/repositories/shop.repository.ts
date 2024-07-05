@@ -6,11 +6,11 @@ interface IShopRepository {
   createShop(
     shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
   ): Promise<IShop>;
-  findByEmail(email: string, select): Promise<IShop>;
+  findShopByEmail(email: string, select): Promise<IShop>;
 }
 
 class ShopRepository implements IShopRepository {
-  findByEmail(
+  findShopByEmail(
     email: string,
     select = {
       email: 1,

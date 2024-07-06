@@ -27,10 +27,10 @@ Database.getInstance();
 
 app.use(deserializeUser);
 app.use("/api/docs", docsRouter);
-
 app.use("/api/v1", appRouter);
 
 // handle error
 app.use(notFoundErrorHandler);
 app.use(errorHandler);
+
 export { app };

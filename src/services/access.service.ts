@@ -116,7 +116,7 @@ class AccessService {
     console.log('------> foundToken', foundToken);
 
     if (!!foundToken) {
-      const { decoded } = await verify(refreshToken, foundToken.publicKey);
+      const { decoded } = await verify(refreshToken, foundToken.privateKey);
 
       await keyRepository.removeKeyById(decoded?.userId);
 
@@ -127,7 +127,7 @@ class AccessService {
       await keyRepository.findByRefreshToken(refreshToken);
     console.log('------> holderToken', holderToken);
     if (!holderToken) throw new AuthError();
-    const { decoded } = await verify(refreshToken, holderToken.publicKey);
+    const { decoded } = await verify(refreshToken, holderToken.privateKey);
     console.log('------> decoded', decoded);
 
     const foundShop = await shopRepository.findShopByEmail(decoded?.email);

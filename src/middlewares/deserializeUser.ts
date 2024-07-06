@@ -7,6 +7,8 @@ import { keyRepository } from "../repositories/keys.repository";
 const HEADERS = {
   API_KEY: "x-api-key",
   CLIENT_ID: "x-client-id",
+  AUTHORIZATION : 'authorization',
+  REFRESHTONKEN: 'refreshToken'
 };
 
 const deserializeUser = async (
@@ -15,13 +17,12 @@ const deserializeUser = async (
   next: NextFunction,
 ) => {
   const bearerToken = get(req, "headers.authorization");
+
   const userId = req.headers[HEADERS.CLIENT_ID];
-  console.log('====> userId', userId);
 
   if (!userId) return next();
 
   const keyStore = await keyRepository.findUserById(userId);
-  console.log('====> keyStore', keyStore);
   if (!keyStore) return next();
 
   let token = bearerToken;
@@ -31,7 +32,7 @@ const deserializeUser = async (
   }
   if (!token) return next();
 
-  const { decoded, expired, valid } = verify(token, keyStore.publicKey);
+  const { decoded, expired, valid } = verify(token, keyStore.privateKey);
   if (valid && !expired && decoded?.userId === userId) {
     req.keyStore = keyStore;
     return next();

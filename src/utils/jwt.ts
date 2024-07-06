@@ -1,16 +1,16 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-export const sign = async (payload: any, privateKey, expiresIn) => {
-  const token = await jwt.sign(payload, privateKey, {
+export const sign = async (payload: any, publicKey, expiresIn) => {
+  const token = await jwt.sign(payload, publicKey, {
     algorithm: "RS256",
     expiresIn: `${expiresIn} days`,
   });
   return token;
 };
 
-export const verify = (token: string, publicKey: string) => {
+export const verify = (token: string, privateKey: string) => {
   try {
-    const decoded = jwt.verify(token, publicKey);
+    const decoded = jwt.verify(token, privateKey);
     return {
       valid: true,
       expired: false,

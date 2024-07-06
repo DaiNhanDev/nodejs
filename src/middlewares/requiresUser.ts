@@ -11,7 +11,6 @@ const requireUser = async (
 ) => {
   try {
     const keyStore: IKeys | null | undefined = get(req, "keyStore");
-    console.log('=====> keyStore', keyStore);
     if (!keyStore) {
       return res.status(401).json({ code: 401, message: "UNAUTHORIZED" });
     }

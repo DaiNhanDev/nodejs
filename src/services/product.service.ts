@@ -4,6 +4,7 @@ import {
   clothingsModel,
   electronicsModel,
 } from "../models/product.model";
+import { IProduct, IClothing, IElectronic } from "../types";
 
 class Product {
   product_name;
@@ -14,6 +15,7 @@ class Product {
   product_type;
   product_attibutes;
   shopId;
+
   constructor({
     product_name,
     product_thumb,
@@ -41,7 +43,6 @@ class Product {
 
 class Clothing extends Product {
   async createProduct() {
-    // return await productModel.create(this);
     const newClothing = await clothingsModel.create(this.product_attibutes);
     if (!newClothing) throw new BadRequestError();
 
@@ -54,7 +55,6 @@ class Clothing extends Product {
 }
 class Electronics extends Product {
   async createProduct() {
-    // return await productModel.create(this);
     const newElectronics = await electronicsModel.create(
       this.product_attibutes
     );
@@ -69,14 +69,18 @@ class Electronics extends Product {
 }
 
 class ProductFactory {
+  static productRegistry = {};
+  static registerProductType(type, classRef) {
+    ProductFactory.productRegistry[type] = classRef;
+  }
+
   static async createProduct(type, payload) {
-    switch (type) {
-      case "Electronics":
-        return new Electronics(payload);
-      case "Clothing":
-        return new Clothing(payload);
-      default:
-        throw new BadRequestError();
-    }
+    const productClass = ProductFactory.productRegistry[type];
+    if (!productClass) throw new BadRequestError();
+
+    return new productClass(payload).createProduct();
   }
 }
+
+ProductFactory.registerProductType("Electronics", Electronics);
+ProductFactory.registerProductType("Clothing", Clothing);

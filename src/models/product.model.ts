@@ -1,9 +1,9 @@
 import { Schema, model } from "mongoose";
-import { IKeys } from "types";
+import { IProduct, IElectronic, IClothing } from "types";
 
 const DOCUMENT_NAME = "Product";
 const COLLECTION_NAME = "Products";
-const productSchema = new Schema<any>(
+const productSchema = new Schema<IProduct<IElectronic | IClothing>>(
   {
     product_name: {
       type: String,
@@ -29,10 +29,6 @@ const productSchema = new Schema<any>(
       required: true,
       enum: ["Electronics", "Clothing", "Furniture"],
     },
-    refreshToken: {
-      type: String,
-      required: true,
-    },
     product_attibutes: {
       type: Schema.Types.Mixed,
       required: true,
@@ -49,34 +45,33 @@ const productSchema = new Schema<any>(
   }
 );
 
-const clothingSchema = new Schema<any>(
+const clothingSchema = new Schema<IClothing>(
   {
     brand: {
       type: String,
       required: true,
     },
     size: String,
-    material: String
+    material: String,
   },
   {
     timestamps: true,
-    collection: 'clothes',
+    collection: "clothes",
   }
 );
 
-
-const electronicSchema = new Schema<any>(
+const electronicSchema = new Schema<IElectronic>(
   {
     manufactorer: {
       type: String,
       required: true,
     },
     model: String,
-    color: String
+    color: String,
   },
   {
     timestamps: true,
-    collection: 'electronics',
+    collection: "electronics",
   }
 );
 
@@ -96,6 +91,6 @@ const electronicSchema = new Schema<any>(
 // );
 
 export const productModel = model(DOCUMENT_NAME, productSchema);
-export const clothingsModel = model('Clothings', clothingSchema);
-export const electronicsModel = model('Electronics', electronicSchema);
+export const clothingsModel = model("Clothings", clothingSchema);
+export const electronicsModel = model("Electronics", electronicSchema);
 // export const furnituresModel = model('Furnitures', furnitureSchema);

@@ -7,8 +7,8 @@ import { keyRepository } from "../repositories/keys.repository";
 const HEADERS = {
   API_KEY: "x-api-key",
   CLIENT_ID: "x-client-id",
-  AUTHORIZATION : 'authorization',
-  REFRESHTONKEN: 'refreshToken'
+  AUTHORIZATION: "authorization",
+  REFRESHTONKEN: "refreshToken",
 };
 
 const deserializeUser = async (
@@ -35,6 +35,7 @@ const deserializeUser = async (
   const { decoded, expired, valid } = verify(token, keyStore.privateKey);
   if (valid && !expired && decoded?.userId === userId) {
     req.keyStore = keyStore;
+    req.user = decoded;
     return next();
   } else {
     return res.status(401).json({

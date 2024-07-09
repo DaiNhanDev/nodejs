@@ -1,5 +1,7 @@
 import { Router } from "express";
 import accessRoute from "./v1/access";
+import productRoute from "./v1/product";
+
 // import { apiKey, checkPermission } from "../middlewares/checkApiKey";
 
 const appRouter = Router();
@@ -9,6 +11,10 @@ const appRoutesV1 = [
   {
     path: "/access",
     router: accessRoute,
+  },
+  {
+    path: "/product",
+    router: productRoute,
   },
 ];
 // appRouter.use(apiKey);

@@ -5,19 +5,21 @@ const TOKEN_EXPIRESIN = {
   refreshToken: 7,
 };
 
-export const createTokenPair = async (payload, publicKey, privateKey) => {
+export const createTokenPair = async (payload, privateKey) => {
   try {
     const accessToken = await sign(
       payload,
-      publicKey,
+      privateKey,
       TOKEN_EXPIRESIN.accessToken,
     );
-
     const refreshToken = await sign(
       payload,
-      publicKey,
+      privateKey,
       TOKEN_EXPIRESIN.refreshToken,
     );
+
     return { accessToken, refreshToken };
-  } catch (error) {}
+  } catch (error) {
+    console.log("====> error", error);
+  }
 };

@@ -7,6 +7,10 @@ const route = Router();
 route.post("/shop/signup", catchError(accessController.signup));
 route.post("/shop/login", catchError(accessController.login));
 route.post("/shop/logout", requireUser, catchError(accessController.logout));
-route.post("/shop/refresh-token", requireUser, catchError(accessController.handleRefresToken));
+route.post(
+  "/shop/refresh-token",
+  requireUser,
+  catchError(accessController.handleRefresToken),
+);
 
 export default route;

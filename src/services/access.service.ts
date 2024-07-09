@@ -33,8 +33,7 @@ class AccessService {
       const { publicKey, privateKey } = await generateKeyPair();
       const { accessToken, refreshToken } = await createTokenPair(
         { userId: newShop._id, email },
-        publicKey,
-        privateKey
+        privateKey,
       );
 
       const publicKeyString = await KeyTokenService.createKeyToken({
@@ -74,12 +73,12 @@ class AccessService {
     if (!match) throw new AuthError();
 
     const { publicKey, privateKey } = await generateKeyPair();
+    console.log("=====> publicKey", { publicKey, privateKey });
+
     const tokens = await createTokenPair(
       { userId: foundShop._id, email },
-      publicKey,
-      privateKey
+      privateKey,
     );
-
     const publicKeyString = await KeyTokenService.createKeyToken({
       userId: foundShop._id,
       publicKey,
@@ -113,35 +112,29 @@ class AccessService {
    */
   static async handleRefreshToken(refreshToken) {
     const foundToken = await keyRepository.findByRefreshTokenUsed(refreshToken);
-    console.log('------> foundToken', foundToken);
-
     if (!!foundToken) {
-      const { decoded } = await verify(refreshToken, foundToken.privateKey);
+      const { decoded } = await verify(refreshToken, foundToken.publicKey);
 
       await keyRepository.removeKeyById(decoded?.userId);
 
       throw new FobidenError();
     }
 
-    const holderToken =
-      await keyRepository.findByRefreshToken(refreshToken);
-    console.log('------> holderToken', holderToken);
+    const holderToken = await keyRepository.findByRefreshToken(refreshToken);
     if (!holderToken) throw new AuthError();
-    const { decoded } = await verify(refreshToken, holderToken.privateKey);
-    console.log('------> decoded', decoded);
+    const { decoded } = await verify(refreshToken, holderToken.publicKey);
 
     const foundShop = await shopRepository.findShopByEmail(decoded?.email);
     if (!foundShop) throw new AuthError();
 
     const tokens = await createTokenPair(
       { userId: foundShop._id, email: foundShop.email },
-      holderToken.publicKey,
-      holderToken.privateKey
+      holderToken.privateKey,
     );
     await keyRepository.updateToken({
       refreshToken: tokens.refreshToken,
-      refreshTokensUsed: refreshToken
-    })
+      refreshTokensUsed: refreshToken,
+    });
     return {
       shop: getInfoData(["_id", "name", "email"], foundShop),
       tokens,

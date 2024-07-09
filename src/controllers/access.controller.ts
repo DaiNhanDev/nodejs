@@ -37,8 +37,10 @@ class AccessController {
   };
 
   handleRefresToken = async (req: CustomRequest, res: Response) => {
-    console.log('=======> refreshToken', req.body.refreshToken);
-    const metadata = await AccessService.handleRefreshToken(req.body.refreshToken);
+    console.log("=======> refreshToken", req.body.refreshToken);
+    const metadata = await AccessService.handleRefreshToken(
+      req.body.refreshToken,
+    );
     return new SuccessResponse<IShop>({
       metadata,
       message: "Logout Success",

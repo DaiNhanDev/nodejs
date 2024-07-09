@@ -7,7 +7,7 @@ import { IKeys } from "types";
 const requireUser = async (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const keyStore: IKeys | null | undefined = get(req, "keyStore");

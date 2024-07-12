@@ -1,35 +1,101 @@
-# components:
-#   schemas:
-#     Product:
-#       type: object
-#       properties:
-#         id:
-#           type: number
-#           example: 1
-#         email:
-#           type: string
-#           format: email
-#           example: name@example.com
-#         name:
-#           type: string
-#           example: name
-#         company_id:
-#           type: number
-#           example: 1
-#         manager_id:
-#           type: number
-#           example: 1
-#         store_id:
-#           type: number
-#           example: 1
-#         role_id:
-#           type: number
-#           example: 1
-#         # createdAt:
-#         #   type: string
-#         #   format: date-time
-#         #   example: 2024-02-28T13:14:30.550Z
-#         # updatedAt:
-#         #   type: string
-#         #   format: date-time
-#         #   example: 2024-02-28T13:14:30.550Z
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 668cebef0f3b9eb9a260fb72
+        product_thumb:
+          type: string
+          example: product_thumb
+        product_description:
+          type: string
+          example: product_description
+        product_price:
+          type: number
+          example: 5
+        product_quantity:
+          type: number
+          example: 1
+        product_type:
+          type: string
+          example: Clothing
+        product_attibutes:
+          type: object
+          example: { brand: Adidas, size: L, material: Denim }
+        product_shop:
+          type: string
+          example: 6684cf1a52c595b6feae2ae0
+        product_slug:
+          type: string
+          example: product-slug
+        product_ratings_average:
+          type: number
+          example: 4.5
+        product_variations:
+          type: array
+          example: []
+        is_draft:
+          type: boolen
+          example: true
+        is_published:
+          type: boolen
+          example: false
+        createdAt:
+          type: string
+          format: date-time
+          example: 2024-02-28T13:14:30.550Z
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2024-02-28T13:14:30.550Z
+  responses:
+    GetList: 
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Successfully.
+              status:
+                type: number
+                example: 200
+              metadata:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    GetData: 
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Successfully.
+              status:
+                type: number
+                example: 200
+              metadata:
+                $ref: '#/components/schemas/Product'
+
+      Created: 
+        description: Created
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Created.
+                status:
+                  type: number
+                  example: 200
+                metadata:
+                  $ref: '#/components/schemas/Product'

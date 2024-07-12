@@ -1,6 +1,3 @@
-tags:
-  - name: Product
-    description: Product managament
 paths:
   /product/create:
     post:
@@ -14,48 +11,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - product_name
-                - product_thumb
-                - product_description
-                - product_price
-                - product_quantity
-                - product_type
-                - shopId
-                - product_attibutes
-              properties:
-                product_name:
-                  type: string
-                product_thumb:
-                  type: string
-                product_description:
-                  type: string
-                product_quantity:
-                  type: number
-                product_type:
-                  type: string
-                shopId:
-                  type: string
-                product_attibutes:
-                  type: object
-                product_price:
-                  type: number
-              example:
-                product_name: New jean
-                product_thumb: product_thumb
-                product_description: Adidas
-                product_price: 2000
-                product_quantity: 200
-                product_type: Clothing
-                product_attibutes: { brand: Adidas, size: L, material: Denim }
+              $ref: '#/components/schemas/Product'
       responses:
         "201":
           description: Created
         "400":
           description: Bad Request
 
-  /product/drafts:
+  /product/draft/all:
     get:
       summary: Get Drafts Products information
       description: Logged in users can fetch only their own user information.
@@ -64,12 +27,12 @@ paths:
         - bearerAuth: []
         - clientId: []
       responses:
-        "200":
-          description: OK
+        "200": 
+          $ref: '#/components/responses/GetList' 
         "400":
           description: Bad Request
 
-  /product/publisheds:
+  /product/published/all:
     get:
       summary: Get Drafts Products information
       description: Logged in users can fetch only their own user information.
@@ -78,11 +41,10 @@ paths:
         - bearerAuth: []
         - clientId: []
       responses:
-        "200":
-          description: OK
+        "200": 
+          $ref: '#/components/responses/GetList'  
         "400":
           description: Bad Request
-
 
   /product/publish/{id}:
     put:
@@ -102,13 +64,87 @@ paths:
           description: id items
       responses:
         "204":
-          description: The Product was deleted successfully.
+          description: The Product was publish successfully.
         "401":
           description: Authorization information is missing or invalid.
         "400":
           description:  Bad Request
         "404":
           description: A user with the specified ID was not found.
+
+  /product/unpublish/{id}:
+    put:
+      summary: update an Product
+      description: Logged in users can edit an Product.
+      tags: [Product]
+      security:
+        - bearerAuth: []
+        - clientId: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            example: string
+          required: false
+      responses:
+        "204":
+          description: The Product was unpublish successfully.
+        "401":
+          description: Authorization information is missing or invalid.
+        "400":
+          description:  Bad Request
+        "404":
+          description: A user with the specified ID was not found.
+
+  /product/search:
+    get:
+      summary: Get Products information by User
+      description: Logged in users can fetch only their own user information.
+      tags: [Product]
+      security:
+        - clientId: []
+      parameters:
+        - in: query
+          name: search
+      responses:
+        "200": 
+          $ref: '#/components/responses/GetList'  
+        "400":
+          description: Bad Request
+
+
+  /product/all:
+    get:
+      summary: Get Products information by User
+      description: Logged in users can fetch only their own user information.
+      tags: [Product]
+      security:
+        - clientId: []
+      parameters:
+        - in: query
+          name: search
+      responses:
+        "200": 
+          $ref: '#/components/responses/GetList'         
+        "400":
+          description: Bad Request
+
+  /product/{product_id}:
+    get:
+      summary: Get Products information by User
+      description: Logged in users can fetch only their own user information.
+      tags: [Product]
+      security:
+        - clientId: []
+      parameters:
+        - in: path
+          name: product_id
+      responses:
+        "200":
+          $ref: '#/components/responses/GetData'   
+        "400":
+          description: Bad Request
   
   #   /v1/product/delete:
   #     delete:

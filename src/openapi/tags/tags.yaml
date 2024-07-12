@@ -1,0 +1,9 @@
+tags:
+  - name: Auth
+    description: Access to Authentication
+    externalDocs:
+      url: http://localhost:8000/api/docs/#/Auth
+  - name: Product
+    description: Product managament
+    externalDocs:
+      url: http://localhost:8000/api/docs/#/Product

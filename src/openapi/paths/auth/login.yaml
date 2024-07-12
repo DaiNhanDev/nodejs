@@ -1,0 +1,40 @@
+paths:
+  /access/shop/login:
+    post:
+      summary: Login
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              example:
+                email: nhantest@example.com
+                password: password1
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    # $ref: '#/components/schemas/User'
+                  access_token:
+                    type: string
+                    example: token
+
+        "400":
+          description: Invalid email or password

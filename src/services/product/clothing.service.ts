@@ -1,20 +1,11 @@
-import { BadRequestError } from "../../utils/error.response";
 import { clothingRepository } from "../../repositories";
-import { ProductBase } from "./product.service";
+import { clothingsModel } from "../../models";
+import { Category } from "./category.service";
 
-export class Clothing extends ProductBase {
-  async createProduct() {
-    const newClothing = await clothingRepository.create({
-      ...this.product_attibutes,
-      product_shop: this.product_shop,
-    });
-    console.log("=======> newClothing", newClothing);
-    if (!newClothing) throw new BadRequestError();
-
-    const newProduct = await super.createProduct(newClothing._id);
-
-    if (!newProduct) throw new BadRequestError();
-
-    return newProduct;
+export class Clothing extends Category {
+  constructor(params, repository, model) {
+    super(params, repository, model);
+    this.repository = clothingRepository;
+    this.model = clothingsModel;
   }
 }

@@ -1,0 +1,14 @@
+paths:
+  /access/shop/logout:
+    post:
+      summary: Logout
+      description: Logged in users can fetch only their own user information.
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+        - clientId: []
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request

@@ -1,0 +1,23 @@
+paths:
+  /product/{product_id}:
+    patch:
+      summary: Create an Product
+      description: Logged in users can create an Product.
+      tags: [Product]
+      security:
+        - bearerAuth: []
+        - clientId: []
+      parameters:
+        - in: path
+          name: product_id
+          example: 668cebef0f3b9eb9a260fb72
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request

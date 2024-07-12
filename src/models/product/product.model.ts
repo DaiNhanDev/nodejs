@@ -1,11 +1,11 @@
 import { Schema, model } from "mongoose";
-import { IProduct, IElectronic, IClothing } from "types";
+import { IProduct } from "types";
 import slugify from "slugify";
 import { NextFunction } from "express";
 
 const DOCUMENT_NAME = "Product";
 const COLLECTION_NAME = "Products";
-const productSchema = new Schema<IProduct<IElectronic | IClothing>>(
+const productSchema = new Schema<IProduct>(
   {
     product_name: {
       type: String,
@@ -71,26 +71,6 @@ const productSchema = new Schema<IProduct<IElectronic | IClothing>>(
   },
 );
 
-const clothingSchema = new Schema<IClothing>(
-  {
-    brand: {
-      type: String,
-      required: true,
-    },
-    size: String,
-    material: String,
-    product_shop: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "Shop",
-    },
-  },
-  {
-    timestamps: true,
-    collection: "Clothes",
-  },
-);
-
 // create index for search
 productSchema.index({
   product_name: "text",
@@ -103,42 +83,4 @@ productSchema.pre("save", function (next: NextFunction) {
   next();
 });
 
-const electronicSchema = new Schema<IElectronic>(
-  {
-    manufactorer: {
-      type: String,
-      required: true,
-    },
-    model: String,
-    color: String,
-    product_shop: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "Shop",
-    },
-  },
-  {
-    timestamps: true,
-    collection: "Electronics",
-  },
-);
-
-// const furnitureSchema = new Schema<any>(
-//   {
-//     manufactorer: {
-//       type: String,
-//       required: true,
-//     },
-//     model: String,
-//     color: String
-//   },
-//   {
-//     timestamps: true,
-//     collection: 'furnitures',
-//   }
-// );
-
 export const productModel = model(DOCUMENT_NAME, productSchema);
-export const clothingsModel = model("Clothings", clothingSchema);
-export const electronicsModel = model("Electronics", electronicSchema);
-// export const furnituresModel = model('Furnitures', furnitureSchema);

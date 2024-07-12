@@ -45,10 +45,7 @@ class KeyRepository implements IKeyRepository {
           console.log({ data });
           return resolve(data);
         })
-        .catch((error) => {
-          console.log("===> ERROR: ", error);
-          reject(error);
-        }),
+        .catch((error) => reject(error)),
     );
   }
 

@@ -26,6 +26,6 @@ const swaggerOption = {
       },
     },
   },
-  apis: ["src/openapi/**/*.yaml"],
+  apis: ["src/openapi/**/*.yaml", "src/openapi/path/**/*.yaml"],
 };
 export { swaggerOption };

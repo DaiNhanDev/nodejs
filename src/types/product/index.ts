@@ -1,10 +1,10 @@
 import { Types } from "mongoose";
 import { IBase } from "types";
+import { IClothing } from "./clothing";
+import { IElectronic } from "./electronic";
 
-export * from "./clothing";
-export * from "./electronic";
-
-export interface IProduct<T> extends IBase {
+export type ProductType = IClothing | IElectronic;
+export interface IProduct extends IBase {
   product_name: string;
   product_thumb: string;
   product_description: string;
@@ -14,8 +14,10 @@ export interface IProduct<T> extends IBase {
   product_ratings_average?: number | null;
   product_type: "Electronics" | "Clothing";
   product_shop: Types.ObjectId;
-  product_attibutes: T;
+  product_attibutes: ProductType;
   product_variations?: string[];
   is_draft: boolean;
   is_published: boolean;
 }
+
+export { IClothing, IElectronic };

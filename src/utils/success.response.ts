@@ -43,4 +43,16 @@ class CREATED<T> extends SuccessResponse<T> {
   }
 }
 
-export { SuccessResponse, OK, CREATED };
+class NO_CONTENT<T> extends SuccessResponse<T> {
+  constructor({
+    message = "",
+    statusCode = HttpStatus.NO_CONTENT,
+    reasonStatusCode = HttpStatus.getStatusText(HttpStatus.NO_CONTENT),
+    metadata = null,
+    // options = {},
+  }) {
+    super({ message, statusCode, reasonStatusCode, metadata });
+  }
+}
+
+export { SuccessResponse, OK, CREATED, NO_CONTENT };

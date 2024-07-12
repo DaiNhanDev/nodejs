@@ -1,3 +1,4 @@
+import { productModel } from "../../models";
 import { productRepository } from "../../repositories";
 
 export class ProductBase {
@@ -22,8 +23,8 @@ export class ProductBase {
     product_type,
     product_attibutes,
     product_shop,
-    is_draft = true,
-    is_published = false,
+    is_draft,
+    is_published,
     product_variations = [],
   }) {
     this.product_name = product_name;
@@ -43,6 +44,14 @@ export class ProductBase {
     return await productRepository.create({
       ...this,
       _id: product_id,
+    });
+  }
+
+  async updateProductById(product_id, payload) {
+    return await productRepository.updateProductById({
+      product_id,
+      payload,
+      model: productModel,
     });
   }
 }

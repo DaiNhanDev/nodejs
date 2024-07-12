@@ -1,6 +1,7 @@
 import { electronicsModel } from "../../models";
 
 import { IElectronic } from "../../types";
+import { ProductBaseRepository } from "./product-base.repository";
 
 interface IElectronicRepository {
   create(
@@ -8,7 +9,10 @@ interface IElectronicRepository {
   ): Promise<IElectronic>;
 }
 
-class ElectronicRepository implements IElectronicRepository {
+class ElectronicRepository
+  extends ProductBaseRepository
+  implements IElectronicRepository
+{
   create(
     params: Omit<IElectronic, "_id" | "createdAt" | "updatedAt">,
   ): Promise<IElectronic> {
@@ -23,4 +27,4 @@ class ElectronicRepository implements IElectronicRepository {
 
 const electronicRepository = new ElectronicRepository();
 
-export { electronicRepository };
+export { electronicRepository, ElectronicRepository };

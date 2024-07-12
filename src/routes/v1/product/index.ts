@@ -6,12 +6,12 @@ const route = Router();
 
 route.post("/create", requireUser, catchError(productController.create));
 route.get(
-  "/drafts",
+  "/draft/all",
   requireUser,
   catchError(productController.getAllDraftForShop),
 );
 route.get(
-  "/publisheds",
+  "/published/all",
   requireUser,
   catchError(productController.getAllPublishedForShop),
 );
@@ -19,6 +19,21 @@ route.put(
   "/publish/:id",
   requireUser,
   catchError(productController.publishProductByShop),
+);
+
+route.put(
+  "/unpublish/:id",
+  requireUser,
+  catchError(productController.unPublishProductByShop),
+);
+
+route.get("/search", catchError(productController.searchProductBuUser));
+route.get("/all", catchError(productController.getAllProduct));
+route.get("/:product_id", catchError(productController.getProductById));
+route.patch(
+  "/:product_id",
+  requireUser,
+  catchError(productController.updateProductById),
 );
 
 export default route;

@@ -1,30 +1,31 @@
 import mongoose from "mongoose";
+import { IInventory } from "../types";
 
 const { Schema, model } = mongoose;
 
 const DOCUMENT_NAME = "Inventory";
 const COLLECTION_NAME = "Inventories";
-const invetorySchema = new mongoose.Schema<any>(
+const invetorySchema = new mongoose.Schema<IInventory>(
   {
-    inven_productId: {
+    productId: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: "Product",
     },
-    inven_location: {
+    location: {
       type: String,
       default: "unKnow",
     },
-    inven_stock: {
+    stock: {
       type: Number,
       require: true,
     },
-    inven_shopId: {
+    shopId: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: "Shop",
     },
-    inven_reservations: {
+    reservations: {
       type: [{ type: String }],
       default: [],
     },
@@ -35,4 +36,4 @@ const invetorySchema = new mongoose.Schema<any>(
   }
 );
 
-export const inventory = model(DOCUMENT_NAME, invetorySchema);
+export const inventoryModel = model(DOCUMENT_NAME, invetorySchema);

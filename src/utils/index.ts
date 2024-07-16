@@ -1,5 +1,5 @@
-import { pick, remove } from "lodash";
-
+import { pick } from "lodash";
+import { Types } from "mongoose";
 export * from "./auth/auth.utils";
 export * from "./encrypt";
 export * from "./auth/auth.utils";
@@ -22,6 +22,7 @@ export const removeUndefinedObject = (obj: any) => {
 
   return obj;
 };
+
 export const updateNestedObjectParser = (obj: any) => {
   const final = {};
 
@@ -39,3 +40,5 @@ export const updateNestedObjectParser = (obj: any) => {
 
   return final;
 };
+
+export const convertToObjectId = (id: string) => new Types.ObjectId(id);

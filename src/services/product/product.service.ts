@@ -1,5 +1,6 @@
+import { BadRequestError } from "../../utils/error.response";
 import { productModel } from "../../models";
-import { productRepository } from "../../repositories";
+import { productRepository, inventoryRepository } from "../../repositories";
 
 export class ProductBase {
   product_name;
@@ -41,10 +42,22 @@ export class ProductBase {
   }
 
   async createProduct(product_id) {
-    return await productRepository.create({
+    const newProduct = await productRepository.create({
       ...this,
       _id: product_id,
     });
+
+    if (!newProduct) throw new BadRequestError();
+    const newInventory = inventoryRepository.create({
+      productId: product_id,
+      location: "unknow",
+      shopId: this.product_shop,
+      stock: this.product_quantity,
+    });
+
+    if (!newInventory) throw new BadRequestError();
+
+    return newProduct;
   }
 
   async updateProductById(product_id, payload) {

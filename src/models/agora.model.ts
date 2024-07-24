@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import { IAgora } from "../types";
 
 const { Schema, model } = mongoose;
 
 const DOCUMENT_NAME = "AgoraToken";
 const COLLECTION_NAME = "AgoraTokens";
-const keySchema = new mongoose.Schema<any>(
+const agoraSchema = new mongoose.Schema<IAgora>(
   {
     agoraToken: {
       type: String,
@@ -32,4 +33,4 @@ const keySchema = new mongoose.Schema<any>(
   }
 );
 
-export const keyTokenModel = model(DOCUMENT_NAME, keySchema);
+export const agoraModel = model(DOCUMENT_NAME, agoraSchema);

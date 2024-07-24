@@ -5,3 +5,6 @@ export * from "./apiKey";
 export * from "./product";
 export * from "./inventory";
 export * from "./discount";
+export * from "./agora";
+export * from "./channel";
+export * from "./room";

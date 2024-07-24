@@ -7,6 +7,7 @@ import appRouter from "./routes";
 import docsRouter from "./routes/swagger";
 import { errorHandler, notFoundErrorHandler } from "./middlewares/error";
 import deserializeUser from "./middlewares/deserializeUser";
+
 const app: Express = express();
 const PORT = 8000;
 app.set("port", process.env.PORT || PORT);

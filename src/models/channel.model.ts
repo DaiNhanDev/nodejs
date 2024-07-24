@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import { IChannel } from "../types";
 
 const { Schema, model } = mongoose;
 
 const DOCUMENT_NAME = "Channel";
 const COLLECTION_NAME = "Channels";
-const keySchema = new mongoose.Schema<any>(
+const channelSchema = new mongoose.Schema<IChannel>(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -15,6 +16,10 @@ const keySchema = new mongoose.Schema<any>(
       type: String,
       required: true,
     },
+    channel_type: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -22,4 +27,4 @@ const keySchema = new mongoose.Schema<any>(
   }
 );
 
-export const keyTokenModel = model(DOCUMENT_NAME, keySchema);
+export const channelModel = model(DOCUMENT_NAME, channelSchema);

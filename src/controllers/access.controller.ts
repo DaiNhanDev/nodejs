@@ -19,6 +19,7 @@ class AccessController {
 
   login = async (req: Request, res: Response) => {
     const { email = "", password = "" } = req.body;
+    console.log('=====> body', {email: req.body, password});
     const metadata = await AccessService.login({
       email,
       password,
@@ -37,13 +38,20 @@ class AccessController {
   };
 
   handleRefresToken = async (req: CustomRequest, res: Response) => {
-    console.log("=======> refreshToken", req.body.refreshToken);
     const metadata = await AccessService.handleRefreshToken(
       req.body.refreshToken,
     );
     return new SuccessResponse<IShop>({
       metadata,
       message: "Logout Success",
+    }).send(res);
+  };
+
+  getShopByEmail = async (req: CustomRequest, res: Response) => {
+    const metadata = await AccessService.getShopByEmail(req.user.email);
+    return new SuccessResponse<IShop>({
+      metadata,
+      message: "Success",
     }).send(res);
   };
 }

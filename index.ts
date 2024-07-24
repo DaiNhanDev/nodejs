@@ -1,4 +1,6 @@
+// import socket from 'socket.io';
 import { app } from "./src/app";
+
 /**
  * Start Express server.
  */
@@ -11,6 +13,13 @@ const server = app.listen(app.get("port"), () => {
   );
   console.log("  Press CTRL-C to stop\n");
 });
+
+// socket.on('connection', (socket) => {
+//   console.log('a user connected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+// });
 
 process.on("SIGNIN", () => {
   server.close(() => console.log("Exit Server Express"));

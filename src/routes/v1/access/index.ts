@@ -12,5 +12,6 @@ route.post(
   requireUser,
   catchError(accessController.handleRefresToken),
 );
+route.get("/shop",requireUser, catchError(accessController.getShopByEmail));
 
 export default route;

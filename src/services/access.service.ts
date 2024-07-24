@@ -15,7 +15,6 @@ class AccessService {
   static async signUp({ email, name, password }) {
     const shopExist: boolean = await shopRepository.shopExist(email);
     if (shopExist) {
-      console.log("object");
       throw new ConflictRequestError("Shop already registered!");
     }
     const passwordHash = encryptSync(password);
@@ -33,7 +32,7 @@ class AccessService {
       const { publicKey, privateKey } = await generateKeyPair();
       const { accessToken, refreshToken } = await createTokenPair(
         { userId: newShop._id, email },
-        privateKey,
+        privateKey
       );
 
       const publicKeyString = await KeyTokenService.createKeyToken({
@@ -73,11 +72,9 @@ class AccessService {
     if (!match) throw new AuthError();
 
     const { publicKey, privateKey } = await generateKeyPair();
-    console.log("=====> publicKey", { publicKey, privateKey });
-
     const tokens = await createTokenPair(
       { userId: foundShop._id, email },
-      privateKey,
+      privateKey
     );
     const publicKeyString = await KeyTokenService.createKeyToken({
       userId: foundShop._id,
@@ -129,7 +126,7 @@ class AccessService {
 
     const tokens = await createTokenPair(
       { userId: foundShop._id, email: foundShop.email },
-      holderToken.privateKey,
+      holderToken.privateKey
     );
     await keyRepository.updateToken({
       refreshToken: tokens.refreshToken,
@@ -138,6 +135,18 @@ class AccessService {
     return {
       shop: getInfoData(["_id", "name", "email"], foundShop),
       tokens,
+    };
+  }
+
+  /**
+   *
+   */
+  static async getShopByEmail(email) {
+    const foundShop = await shopRepository.findShopByEmail(email);
+    if (!foundShop) throw new BadRequestError("Shop not registered");
+
+    return {
+      shop: foundShop,
     };
   }
 }

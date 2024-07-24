@@ -1,0 +1,17 @@
+  /access/shop:
+    get:
+      summary: Get Shop information
+      description: Logged in users can fetch only their own user information.
+      tags: [Auth]
+      security:
+        - bearerAuth: []
+        - clientId: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:

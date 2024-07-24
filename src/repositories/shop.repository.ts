@@ -1,3 +1,4 @@
+import { getUnSelectData } from "../utils";
 import { shopModel } from "../models";
 import { IShop } from "../types";
 
@@ -22,7 +23,7 @@ class ShopRepository implements IShopRepository {
     return new Promise((resolve, reject) =>
       shopModel
         .findOne({ email })
-        .select(select)
+        .select({...select})
         .lean()
         .then((shop) => resolve(shop))
         .catch((error) => reject(error)),
@@ -34,10 +35,7 @@ class ShopRepository implements IShopRepository {
     return new Promise((resolve, reject) =>
       shopModel
         .create(shop)
-        .then((data) => {
-          console.log("==> DATA: ", data);
-          return resolve(data);
-        })
+        .then((data) => resolve(data))
         .catch((error) => reject(error)),
     );
   }

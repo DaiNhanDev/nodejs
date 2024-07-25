@@ -6,3 +6,4 @@ export * from "./inventory.model";
 export * from "./discount.model";
 export * from "./channel.model";
 export * from "./agora.model";
+export * from "./room.model";

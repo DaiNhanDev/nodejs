@@ -1,0 +1,18 @@
+  /agora/token:
+    get:
+      summary: Get Products information by User
+      description: Logged in users can fetch only their own user information.
+      tags: [Agora]
+      security:
+        # - clientId: []
+      parameters:
+        - in: query
+          name: channelName
+        - in: query
+          name: uid
+        - in: query
+          name: role
+      responses:
+        "200": 
+        "400":
+          description: Bad Request

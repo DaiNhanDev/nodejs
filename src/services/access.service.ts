@@ -10,7 +10,15 @@ import {
 } from "../utils/error.response";
 import { generateKeyPair } from "../utils/crypto";
 import { verify } from "../utils/jwt";
-
+import {
+  updateItem,
+  get,
+  createItem,
+  query,
+  ref,
+  database,
+  equalTo,
+} from "../firebase";
 class AccessService {
   static async signUp({ email, name, password }) {
     const shopExist: boolean = await shopRepository.shopExist(email);
@@ -42,12 +50,17 @@ class AccessService {
         refreshToken,
       });
 
+      await updateItem(`/users/${newShop._id}`, {
+        userId: newShop._id,
+      });
+
       if (!publicKeyString) {
         return {
           code: "xxxx",
           message: "publicKeyString error!",
         };
       }
+
       return {
         shop: getInfoData(["_id", "name", "email"], newShop),
         tokens: {

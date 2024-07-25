@@ -1,0 +1,32 @@
+paths:
+  /room/create:
+    post:
+      summary: Create a Room
+      tags: [Room]
+      # security:
+        # - bearerAuth: []
+        # - clientId: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              example:
+                email: nhantest@example.com
+                password: password1
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request

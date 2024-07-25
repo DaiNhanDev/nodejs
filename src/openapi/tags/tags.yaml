@@ -3,6 +3,14 @@ tags:
     description: Access to Authentication
     externalDocs:
       url: http://localhost:8000/api/docs/#/Auth
+  - name: Agora
+    description: Agora to Authentication
+    externalDocs:
+      url: http://localhost:8000/api/docs/#/Agora
+  - name: Room
+    description: Agora to Authentication
+    externalDocs:
+      url: http://localhost:8000/api/docs/#/Room
   - name: Product
     description: Product managament
     externalDocs:

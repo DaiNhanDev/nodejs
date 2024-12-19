@@ -1,16 +1,25 @@
 import { getUnSelectData } from "../utils";
 import { shopModel } from "../models";
-import { IShop } from "../types";
-
+import { CreatedModel, IShop } from "../types";
+import { BaseRepositoryAbstract } from "./base/base.abstract.repository";
+import sizeof from 'object-sizeof'
+import { SaveOptions } from "mongoose";
 interface IShopRepository {
   shopExist(email: string): Promise<boolean>;
   createShop(
-    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
+    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">
   ): Promise<IShop>;
   findShopByEmail(email: string, select): Promise<IShop>;
 }
 
-class ShopRepository implements IShopRepository {
+class ShopRepository
+  extends BaseRepositoryAbstract<IShop>
+  implements IShopRepository
+{
+  constructor(readonly entity: typeof shopModel) {
+    super(entity);
+  }
+
   findShopByEmail(
     email: string,
     select = {
@@ -18,38 +27,43 @@ class ShopRepository implements IShopRepository {
       password: 1,
       name: 1,
       roles: 1,
-    },
+    }
   ): Promise<IShop> {
     return new Promise((resolve, reject) =>
       shopModel
         .findOne({ email })
-        .select({...select})
+        // .select({ ...select })
         .lean()
-        .then((shop) => resolve(shop))
-        .catch((error) => reject(error)),
+        .then((shop) => {
+         console.log('====>  shop with Lean: ',  sizeof(shop));
+          return resolve(shop);
+        })
+        .catch((error) => reject(error))
     );
   }
+
   createShop(
-    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">,
+    shop: Omit<IShop, "_id" | "createdAt" | "updatedAt">
   ): Promise<IShop> {
     return new Promise((resolve, reject) =>
-      shopModel
+      this.entity
         .create(shop)
         .then((data) => resolve(data))
-        .catch((error) => reject(error)),
+        .catch((error) => reject(error))
     );
   }
+
   shopExist(email: string): Promise<boolean> {
     return new Promise((resolve, reject) =>
-      shopModel
+      this.entity
         .findOne({ email })
         .lean()
         .then((emailExist) => resolve(!!emailExist))
-        .catch((error) => reject(error)),
+        .catch((error) => reject(error))
     );
   }
 }
 
-const shopRepository = new ShopRepository();
+const shopRepository = new ShopRepository(shopModel);
 
 export { shopRepository, IShopRepository };

@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IKeys extends IBase {
+export interface IKeys extends Entity {
   userId: Types.ObjectId;
   publicKey: string;
   privateKey: string;

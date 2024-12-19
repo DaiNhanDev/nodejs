@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IElectronic extends IBase {
+export interface IElectronic extends Entity {
   manufactorer: string;
   model: string;
   color: string;

@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IChannel extends IBase {
+export interface IChannel extends Entity {
   userId: Types.ObjectId;
   channel_name: string;
   channel_type: string;

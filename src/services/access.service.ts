@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { createTokenPair, encryptSync, getInfoData } from "../utils";
 import { compare } from "bcrypt";
 import { keyRepository, shopRepository } from "../repositories";
@@ -61,13 +62,20 @@ class AccessService {
       message: "Shop already registered!",
     };
   }
+  
   /**
    *
    */
   static async login({ email, password }) {
-    const foundShop = await shopRepository.findShopByEmail(email);
+    const foundShop = await shopRepository.findOne({ email });
+    const foundShopByEmail = await shopRepository.findShopByEmail(email);
+    console.log("====> foundShopByEmail: ", foundShopByEmail);
+    console.log("====> foundShop: ", foundShop);
     if (!foundShop) throw new BadRequestError("Shop not registered");
-
+    const foundShopWithId = await shopRepository.findById(
+      "66a352d103dd990e6b8972ee" as unknown as ObjectId
+    );
+    console.log("====>foundShopWithId: ", foundShopWithId);
     const match = compare(password, foundShop.password);
     if (!match) throw new AuthError();
 
@@ -121,7 +129,7 @@ class AccessService {
     if (!holderToken) throw new AuthError();
     const { decoded } = await verify(refreshToken, holderToken.publicKey);
 
-    const foundShop = await shopRepository.findShopByEmail(decoded?.email);
+    const foundShop = await shopRepository.findOne({ email: decoded?.email});
     if (!foundShop) throw new AuthError();
 
     const tokens = await createTokenPair(
@@ -142,7 +150,7 @@ class AccessService {
    *
    */
   static async getShopByEmail(email) {
-    const foundShop = await shopRepository.findShopByEmail(email);
+    const foundShop = await shopRepository.findOne({ email });
     if (!foundShop) throw new BadRequestError("Shop not registered");
 
     return {

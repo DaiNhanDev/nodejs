@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IDiscount extends IBase {
+export interface IDiscount extends Entity {
   name: string;
   description: string;
   type: string;

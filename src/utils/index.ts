@@ -23,7 +23,7 @@ export const removeUndefinedObject = (obj: any) => {
   return obj;
 };
 
-export const updateNestedObjectParser = (obj: any) => {
+export const updateNestedObjectParser = (obj: any = {}) => {
   const final = {};
 
   Object.keys(obj).forEach((k) => {

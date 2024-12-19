@@ -19,7 +19,6 @@ class AccessController {
 
   login = async (req: Request, res: Response) => {
     const { email = "", password = "" } = req.body;
-    console.log('=====> body', {email: req.body, password});
     const metadata = await AccessService.login({
       email,
       password,

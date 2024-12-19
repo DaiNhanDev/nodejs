@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IClothing extends IBase {
+export interface IClothing extends Entity {
   brand: string;
   size: string;
   material: string;

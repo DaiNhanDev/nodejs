@@ -1,7 +1,7 @@
 import { RoleType } from "constants/index";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IShop extends IBase {
+export interface IShop extends Entity {
   name: string;
   email: string;
   password: string;

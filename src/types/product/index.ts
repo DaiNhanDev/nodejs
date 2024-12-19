@@ -1,10 +1,10 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 import { IClothing } from "./clothing";
 import { IElectronic } from "./electronic";
 
 export type ProductType = IClothing | IElectronic;
-export interface IProduct extends IBase {
+export interface IProduct extends Entity {
   product_name: string;
   product_thumb: string;
   product_description: string;

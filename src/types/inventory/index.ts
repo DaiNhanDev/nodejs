@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IInventory extends IBase {
+export interface IInventory extends Entity {
   productId: Types.ObjectId;
   location: string;
   stock: number;

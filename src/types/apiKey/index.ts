@@ -1,7 +1,6 @@
-import { Schema } from "mongoose";
-import { IBase } from "types";
+import { Entity } from "types";
 
-export interface IApiKeys extends IBase {
+export interface IApiKeys extends Entity {
   key: string;
   status: boolean;
   permissions: string[];

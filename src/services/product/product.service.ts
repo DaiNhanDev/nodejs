@@ -53,6 +53,7 @@ export class ProductBase {
       location: "unknow",
       shopId: this.product_shop,
       stock: this.product_quantity,
+      reservations: []
     });
 
     if (!newInventory) throw new BadRequestError();

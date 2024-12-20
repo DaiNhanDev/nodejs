@@ -1,25 +1,18 @@
 import { inventoryModel } from "../models";
 import { IInventory } from "../types";
+import { BaseRepositoryAbstract } from "./base/base.abstract.repository";
 
-interface IInventoryRepository {
-  create(
-    inventory: Partial<Omit<IInventory, "_id" | "createdAt" | "updatedAt">>,
-  ): Promise<IInventory>;
-}
+interface IInventoryRepository {}
 
-class InventoryRepository implements IInventoryRepository {
-  create(
-    inventory: Partial<Omit<IInventory, "_id" | "createdAt" | "updatedAt">>,
-  ): Promise<IInventory> {
-    return new Promise((resolve, reject) =>
-      inventoryModel
-        .create(inventory)
-        .then((data) => resolve(data))
-        .catch((error) => reject(error)),
-    );
+class InventoryRepository
+  extends BaseRepositoryAbstract<IInventory>
+  implements IInventoryRepository
+{
+  constructor(readonly entity: typeof inventoryModel) {
+    super(entity);
   }
 }
 
-const inventoryRepository = new InventoryRepository();
+const inventoryRepository = new InventoryRepository(inventoryModel);
 
 export { inventoryRepository, IInventoryRepository };

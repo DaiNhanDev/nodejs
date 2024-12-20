@@ -41,10 +41,7 @@ class KeyRepository implements IKeyRepository {
           { upsert: true, new: true },
         )
         .lean()
-        .then((data) => {
-          console.log({ data });
-          return resolve(data);
-        })
+        .then((data) => resolve(data))
         .catch((error) => reject(error)),
     );
   }

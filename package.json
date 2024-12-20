@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/DaiNhanDev/ncjsc-api#readme",
   "dependencies": {
-    "@nestjs/mongoose": "^10.1.0",
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
     "crypto": "^1.0.1",

@@ -1,4 +1,4 @@
-import { SchemaDefinitionProperty, ObjectId, Schema } from "mongoose";
+import { SchemaDefinitionProperty, ObjectId } from "mongoose";
 
 export interface Entity {
   _id?: ObjectId;
@@ -25,7 +25,7 @@ export type CreatedModel = {
 };
 
 export type CreatedOrUpdateModel = {
-  id: ObjectId;
+  _id: ObjectId;
   created: boolean;
   updated: boolean;
 };

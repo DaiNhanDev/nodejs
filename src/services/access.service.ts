@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import { createTokenPair, encryptSync, getInfoData } from "../utils";
 import { compare } from "bcrypt";
 import { keyRepository, shopRepository } from "../repositories";
@@ -20,7 +19,7 @@ class AccessService {
     }
     const passwordHash = encryptSync(password);
 
-    const newShop = await shopRepository.createShop({
+    const newShop = await shopRepository.create({
       email,
       name,
       password: passwordHash,
@@ -68,14 +67,7 @@ class AccessService {
    */
   static async login({ email, password }) {
     const foundShop = await shopRepository.findOne({ email });
-    const foundShopByEmail = await shopRepository.findShopByEmail(email);
-    console.log("====> foundShopByEmail: ", foundShopByEmail);
-    console.log("====> foundShop: ", foundShop);
     if (!foundShop) throw new BadRequestError("Shop not registered");
-    const foundShopWithId = await shopRepository.findById(
-      "66a352d103dd990e6b8972ee" as unknown as ObjectId
-    );
-    console.log("====>foundShopWithId: ", foundShopWithId);
     const match = compare(password, foundShop.password);
     if (!match) throw new AuthError();
 

@@ -1,5 +1,4 @@
 import { NextFunction, Response } from "express";
-// import crypto from 'crypto';
 import { apiKeyRepository } from "../repositories/apiKey.repository";
 import { CustomRequest } from "types/customDefinition";
 
@@ -20,12 +19,7 @@ export const apiKey = async (
         message: "FOBIDDEN",
       });
     }
-    // await apiKeyRepository.create({
-    //   key: crypto.randomBytes(64).toString('hex'),
-    //   permissions: ['0000'],
-    //   status: true
-    // })
-    const objKey = await apiKeyRepository.findById(key);
+    const objKey = await apiKeyRepository.findOne({ key, status: true });
     if (!objKey) {
       return res.status(403).json({
         message: "FOBIDDEN",

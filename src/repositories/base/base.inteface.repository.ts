@@ -2,7 +2,8 @@ import { ObjectId } from 'mongoose';
 import { CreatedModel, CreatedOrUpdateModel, DatabaseOperationCommand, RemovedModel, UpdatedModel } from '../../types';
 
 export abstract class IBaseRepository<T> {
-  abstract create<TOptions = unknown>(document: T, saveOptions?: TOptions): Promise<CreatedModel>;
+  abstract save<TOptions = unknown>(document: T, saveOptions?: TOptions): Promise<CreatedModel>;
+  abstract create(document: T): Promise<T>;
 
   abstract createOrUpdate<TUpdate = Partial<T>, TOptions = unknown>(
     updated: TUpdate,
@@ -11,7 +12,7 @@ export abstract class IBaseRepository<T> {
 
   abstract insertMany<TOptions = unknown>(document: T[], saveOptions?: TOptions): Promise<void>;
 
-  abstract findById<TOpt = unknown>(id: ObjectId | number, options?: TOpt): Promise<T | null>;
+  abstract findById<TOpt = unknown>(_id: ObjectId | number, options?: TOpt): Promise<T | null>;
 
   abstract findAll<TQuery = Partial<T>, TOpt = unknown>(filter?: TQuery, opt?: TOpt): Promise<T[]>;
 

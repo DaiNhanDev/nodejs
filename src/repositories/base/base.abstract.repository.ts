@@ -32,7 +32,7 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
     await this.model.insertMany(documents, saveOptions as InsertManyOptions);
   }
 
-  async create<TOptions = SaveOptions>(
+  async save<TOptions = SaveOptions>(
     document: T,
     saveOptions?: TOptions
   ): Promise<CreatedModel> {
@@ -40,6 +40,12 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
     const savedResult = await createdEntity.save(saveOptions as SaveOptions);
 
     return { _id: savedResult.id, created: !!savedResult.id };
+  }
+
+  async create(
+    document: Omit<T, '_id' | 'createdAt' | 'updatedAt'>,
+  ): Promise<T> {
+    return await this.model.create(document);
   }
 
   async createOrUpdate<TDocument = Entity, TOptions = QueryOptions>(
@@ -60,7 +66,7 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
       });
       const savedResult = await createdEntity.save(options as QueryOptions);
 
-      return { id: savedResult.id, created: true, updated: false };
+      return { _id: savedResult.id, created: true, updated: false };
     }
 
     await this.model.updateOne(
@@ -69,7 +75,7 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
       options
     );
 
-    return { id: exists._id, created: false, updated: true };
+    return { _id: exists._id, created: false, updated: true };
   }
 
   async find<TQuery = FilterQuery<T>, TOptions = QueryOptions>(
@@ -130,13 +136,10 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
       filter as FilterQuery<T>,
       updated as UpdateWithAggregationPipeline | UpdateQuery<T>,
       { new: true, ...options } as QueryOptions
-    );
+    ).lean();
 
-    if (!model) {
-      return null;
-    }
-
-    return model.toObject({ virtuals: true });
+   
+    return model as T || null ;
   }
 
   async updateMany<
@@ -165,7 +168,7 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
       [key]: { $in: input[inputKey as keyof T] },
       deletedAt: null,
     };
-    return await this.model.find(filter, null, options as QueryOptions);
+    return await this.model.find(filter, null, options as QueryOptions).lean();
   }
 
   async findByCommands<TOptions = QueryOptions>(
@@ -208,9 +211,9 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
       searchList,
       null,
       options as QueryOptions
-    );
+    ).lean();
 
-    return data.map((d) => d.toObject({ virtuals: true }));
+    return data as T[];
   }
 
   async findOneWithExcludeFields<
@@ -248,9 +251,10 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
 
     const data = await this.model
       .find(where as FilterQuery<T>, undefined, options as QueryOptions)
-      .select(exclude.join(" "));
+      .select(exclude.join(" "))
+      .lean();
 
-    return data.map((d) => d.toObject({ virtuals: true }));
+    return data as T[];
   }
 
   async findOneWithSelectFields<TQuery = Partial<T>, TOptions = unknown>(
@@ -262,11 +266,12 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
 
     const data = await this.model
       .findOne(filter as FilterQuery<T>, undefined, options as QueryOptions)
-      .select(exclude.join(" "));
+      .select(exclude.join(" "))
+      .lean();
 
     if (!data) return null;
 
-    return data.toObject({ virtuals: true });
+    return data as T;
   }
 
   async findAllWithSelectFields<
@@ -285,9 +290,10 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
 
     const data = await this.model
       .find(where as FilterQuery<T>, undefined, options as QueryOptions)
-      .select(exclude.join(" "));
+      .select(exclude.join(" "))
+      .lean();
 
-    return data.map((d) => d.toObject({ virtuals: true }));
+    return data as T[];
   }
 
   private applyFilterWhenFilterParameterIsNotFirstOption(

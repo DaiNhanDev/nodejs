@@ -35,6 +35,7 @@ route.patch(
   requireUser,
   catchError(productController.updateProductById),
 );
-route.get("/", catchError(productController.getProduct));
+route.get("/", catchError(productController.getAllProduct));
+route.post("/", requireUser, catchError(productController.create));
 
 export default route;

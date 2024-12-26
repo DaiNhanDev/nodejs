@@ -7,16 +7,17 @@ const CLASS_REF = {
   Electronic,
   Clothing,
 };
+type Categories = keyof typeof CLASS_REF;
 export class ProductFactory {
   static productRegistry = {};
   static repositoryRegistry = {};
   static registerProductType() {
-    Object.keys(CLASS_REF).forEach((key) => {
+    Object.keys(CLASS_REF).forEach((key: Categories) => {
       ProductFactory.productRegistry[key] = CLASS_REF[key];
     });
   }
 
-  static async createProduct(type, payload) {
+  static async createProduct(type: Categories, payload) {
     const productClass = ProductFactory.productRegistry[type];
     if (!productClass) throw new BadRequestError();
 

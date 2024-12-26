@@ -3,13 +3,11 @@ import { productModel } from "../../models";
 
 import { IProduct } from "../../types";
 import { getSelectData, getUnSelectData } from "../../utils";
-import { ProductBaseRepository } from "./product-base.repository";
+import {
+  ProductBaseRepository,
+} from "./product-base.repository";
 
 interface IProductRepository {
-  create(
-    params: Omit<IProduct, "_id" | "createdAt" | "updatedAt">,
-  ): Promise<IProduct>;
-
   queryProduct({ query, limit, skip }): Promise<IProduct[]>;
 
   searchProductByUser({ query }): Promise<IProduct[]>;
@@ -27,24 +25,14 @@ interface IProductRepository {
   findProduct({ product_id }): Promise<IProduct>;
 }
 
-class ProductRepository
-  extends ProductBaseRepository
-  implements IProductRepository
-{
-  create(
-    params: Omit<IProduct, "_id" | "createdAt" | "updatedAt">,
-  ): Promise<IProduct> {
-    return new Promise((resolve, reject) =>
-      productModel
-        .create(params)
-        .then((data) => resolve(data))
-        .catch((error) => reject(error)),
-    );
+class ProductRepository extends ProductBaseRepository<IProduct> implements IProductRepository{
+  constructor(readonly entity: typeof productModel) {
+    super(entity);
   }
 
   queryProduct({ query, limit = 50, skip = 0 }): Promise<IProduct[]> {
     return new Promise((resolve, reject) =>
-      productModel
+      this.entity
         .find(query)
         .populate("product_shop", "name email -_id")
         .sort({ updatedAt: -1 })
@@ -52,7 +40,7 @@ class ProductRepository
         .limit(limit)
         .lean()
         .then((data) => resolve(data))
-        .catch((error) => reject(error)),
+        .catch((error) => reject(error))
     );
   }
 
@@ -103,12 +91,12 @@ class ProductRepository
         .find(
           { $text: { $search: query }, is_published: true },
           { score: { $meta: "textScore" } },
-          { lean: true },
+          { lean: true }
         )
         .sort({ score: { $meta: "textScore" } })
         .lean()
         .then((data) => resolve(data))
-        .catch((error) => reject(error)),
+        .catch((error) => reject(error))
     );
   }
 
@@ -128,7 +116,7 @@ class ProductRepository
         .select(getSelectData(select))
         .lean()
         .then((data) => resolve(data))
-        .catch((error) => reject(error)),
+        .catch((error) => reject(error))
     );
   }
 
@@ -139,11 +127,9 @@ class ProductRepository
         .select(getUnSelectData(unSelect))
         .lean()
         .then((data) => resolve(data))
-        .catch((error) => reject(error)),
+        .catch((error) => reject(error))
     );
   }
 }
-
-const productRepository = new ProductRepository();
-
+const productRepository = new ProductRepository(productModel);
 export { productRepository };

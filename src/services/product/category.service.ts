@@ -3,18 +3,14 @@ import { ElectronicRepository, ClothingRepository } from "../../repositories";
 import { ProductBase } from "./product.service";
 import { removeUndefinedObject, updateNestedObjectParser } from "../../utils";
 import { omit } from "lodash";
-import { Model } from "mongoose";
-import { IClothing, IElectronic } from "../../types";
 
 type IRepository = ElectronicRepository | ClothingRepository;
 export class Category extends ProductBase {
   repository: IRepository;
-  model: Model<IClothing | IElectronic>;
 
-  constructor(params, repository, model) {
+  constructor(params, repository: IRepository) {
     super(params);
     this.repository = repository;
-    this.model = model;
   }
   async createProduct() {
     const newCategory = await this.repository.create({
@@ -32,14 +28,13 @@ export class Category extends ProductBase {
 
   async updateProductById(product_id) {
     const objectParams = removeUndefinedObject(
-      omit(this, "repository", "model"),
+      omit(this, "repository"),
     );
     if (objectParams && objectParams.product_attibutes) {
       // update child
       await this.repository.updateProductById({
         product_id,
         payload: updateNestedObjectParser(objectParams.product_attibutes),
-        model: this.model,
       });
     }
 

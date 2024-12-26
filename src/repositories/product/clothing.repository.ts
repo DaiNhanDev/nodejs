@@ -3,30 +3,17 @@ import { clothingsModel } from "../../models";
 import { IClothing } from "../../types";
 import { ProductBaseRepository } from "./product-base.repository";
 
-interface IClothingRepository {
-  create(
-    params: Omit<IClothing, "_id" | "createdAt" | "updatedAt">,
-  ): Promise<IClothing>;
-
-  // update(productId, payload): Promise<IClothing>;
-}
+interface IClothingRepository {}
 
 class ClothingRepository
-  extends ProductBaseRepository
+  extends ProductBaseRepository<IClothing>
   implements IClothingRepository
 {
-  create(
-    params: Omit<IClothing, "_id" | "createdAt" | "updatedAt">,
-  ): Promise<IClothing> {
-    return new Promise((resolve, reject) =>
-      clothingsModel
-        .create(params)
-        .then((data) => resolve(data))
-        .catch((error) => reject(error)),
-    );
+  constructor(readonly entity: typeof clothingsModel) {
+    super(entity);
   }
 }
 
-const clothingRepository = new ClothingRepository();
+const clothingRepository = new ClothingRepository(clothingsModel);
 
 export { clothingRepository, ClothingRepository };

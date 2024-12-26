@@ -212,3 +212,20 @@ paths:
           $ref: '#/components/responses/GetList'         
         "400":
           description: Bad Request
+    post:
+      summary: Create an Product
+      description: Logged in users can create an Product.
+      tags: [Product]
+      security:
+        - bearerAuth: []
+        - clientId: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request         

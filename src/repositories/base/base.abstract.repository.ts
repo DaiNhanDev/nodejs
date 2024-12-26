@@ -45,6 +45,7 @@ export abstract class BaseRepositoryAbstract<T extends Entity>
   async create(
     document: Omit<T, '_id' | 'createdAt' | 'updatedAt'>,
   ): Promise<T> {
+    console.log('object');
     return await this.model.create(document);
   }
 

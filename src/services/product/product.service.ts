@@ -65,7 +65,6 @@ export class ProductBase {
     return await productRepository.updateProductById({
       product_id,
       payload,
-      model: productModel,
     });
   }
 }

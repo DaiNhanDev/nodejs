@@ -3,13 +3,14 @@ import { Types } from "mongoose";
 import { IApiKeys } from "types/apiKey";
 import { IKeys } from "types/keys";
 
-export interface CustomRequest extends Request {
+export interface CustomRequest<T = any> extends Request {
   objKey?: IApiKeys | null;
   keyStore?: IKeys | null;
   user: {
     email: string;
     userId: Types.ObjectId;
   };
+  body: T;
 }
 
 export interface customError extends Error {

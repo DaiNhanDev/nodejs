@@ -197,4 +197,18 @@ paths:
   #         "400":
   #           description:  Bad Request
 
-
+  /product:
+    get:
+      summary: Get Products information by User
+      description: Logged in users can fetch only their own user information.
+      tags: [Product]
+      security:
+        - clientId: []
+      parameters:
+        - in: query
+          name: search
+      responses:
+        "200": 
+          $ref: '#/components/responses/GetList'         
+        "400":
+          description: Bad Request

@@ -35,5 +35,6 @@ route.patch(
   requireUser,
   catchError(productController.updateProductById),
 );
+route.get("/", catchError(productController.getProduct));
 
 export default route;

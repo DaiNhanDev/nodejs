@@ -8,6 +8,7 @@ import {
 import { IProduct } from "types";
 import { CustomRequest } from "types/customDefinition";
 import { get } from "lodash";
+import { ProductService } from "../services/product.service";
 
 class ProductController {
   create = async (req: CustomRequest, res: Response) => {
@@ -109,6 +110,23 @@ class ProductController {
       type: req.body.product_type,
     });
     return new SuccessResponse<IProduct>({
+      metadata,
+      message: "Success",
+    }).send(res);
+  };
+
+  getProduct = async (req: CustomRequest, res: Response) => {
+    const query = get(req, "query");
+    const { filter, limit, sort, select, page } = query;
+    const metadata = await ProductService.findProducts({
+      filter,
+      limit,
+      sort,
+      select,
+      page,
+    });
+    console.log('metadata: ', metadata);
+    return new SuccessResponse<IProduct[]>({
       metadata,
       message: "Success",
     }).send(res);

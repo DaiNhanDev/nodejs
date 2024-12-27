@@ -26,7 +26,7 @@ app.use(
 Database.getInstance();
 
 app.use(deserializeUser);
-app.use("/api/docs", docsRouter);
+app.use("/swagger-ui", docsRouter);
 app.use("/api/v1", appRouter);
 
 // handle error

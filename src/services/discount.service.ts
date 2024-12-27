@@ -10,33 +10,21 @@ import { convertToObjectId } from "utils";
 const { findDiscountByCode, create } = discountRepository;
 class DiscountService {
   static async createDiscountCode(payload) {
-    const {
-      code,
-      start,
-      end,
-      is_active,
-      shopId,
-      min_order_value,
-      product_ids,
-      applies_to,
-      name,
-      description,
-      type,
-      value,
-      max_value,
-      max_uses,
-      uses_count,
-    } = payload;
-    const foundDisccount = await findDiscountByCode(code, shopId);
+    const foundDisccount = await findDiscountByCode(
+      payload.code,
+      payload.shopId
+    );
 
     if (foundDisccount && foundDisccount.is_active) {
       throw new BadRequestError();
     }
-
+    // if start_date > end_date || date < start_date || date > end_date
     const newDiscount = await create(payload);
 
     return newDiscount;
   }
+
+  static async updateDiscountCode() {}
 
   static async getAllDiscountCodeWithProduct({
     code,
@@ -80,7 +68,7 @@ class DiscountService {
   }
 
   static async getAllDiscountCodeByShop(payload) {
-    // const discounts = 
+    // const discounts =
   }
 }
 

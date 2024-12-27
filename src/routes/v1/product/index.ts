@@ -4,7 +4,6 @@ import { Router } from "express";
 import requireUser from "../../../middlewares/requiresUser";
 const route = Router();
 
-route.post("/create", requireUser, catchError(productController.create));
 route.get(
   "/draft/all",
   requireUser,
@@ -27,15 +26,14 @@ route.put(
   catchError(productController.unPublishProductByShop),
 );
 
-route.get("/search", catchError(productController.searchProductBuUser));
-route.get("/all", catchError(productController.getAllProduct));
+route.get("/search", catchError(productController.searchProductByUser));
 route.get("/:product_id", catchError(productController.getProductById));
 route.patch(
   "/:product_id",
   requireUser,
   catchError(productController.updateProductById),
 );
-route.get("/", catchError(productController.getAllProduct));
+route.get("/", catchError(productController.findProducts));
 route.post("/", requireUser, catchError(productController.create));
 
 export default route;

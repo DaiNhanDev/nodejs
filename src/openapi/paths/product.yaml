@@ -1,23 +1,4 @@
 paths:
-  /product/create:
-    post:
-      summary: Create an Product
-      description: Logged in users can create an Product.
-      tags: [Product]
-      security:
-        - bearerAuth: []
-        - clientId: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product'
-      responses:
-        "201":
-          description: Created
-        "400":
-          description: Bad Request
-
   /product/draft/all:
     get:
       summary: Get Drafts Products information
@@ -113,23 +94,6 @@ paths:
         "400":
           description: Bad Request
 
-
-  /product/all:
-    get:
-      summary: Get Products information by User
-      description: Logged in users can fetch only their own user information.
-      tags: [Product]
-      security:
-        - clientId: []
-      parameters:
-        - in: query
-          name: search
-      responses:
-        "200": 
-          $ref: '#/components/responses/GetList'         
-        "400":
-          description: Bad Request
-
   /product/{product_id}:
     get:
       summary: Get Products information by User
@@ -145,8 +109,28 @@ paths:
           $ref: '#/components/responses/GetData'   
         "400":
           description: Bad Request
-  
-  #   /v1/product/delete:
+    patch:
+      summary: Create an Product
+      description: Logged in users can create an Product.
+      tags: [Product]
+      security:
+        - bearerAuth: []
+        - clientId: []
+      parameters:
+        - in: path
+          name: product_id
+          example: 668cebef0f3b9eb9a260fb72
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+
   #     delete:
   #       summary: delete an Product
   #       description: Logged in users can delete an Product.
@@ -165,32 +149,6 @@ paths:
   #                   type: interger
   #               example:
   #                 id:  1
-  #       responses:
-  #         "200":
-  #           description: Deleted
-  #         "400":
-  #           description:  Bad Request
-
-  #   /v1/product/delete/list:
-  #     delete:
-  #       summary: delete an Product
-  #       description: Logged in users can delete an Product.
-  #       tags: [Product]
-  #       security:
-  #         - bearerAuth: []
-  #       requestBody:
-  #         required: true
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 ids:
-  #                   type: array
-  #                   items:
-  #                     type: number
-  #               example:
-  #                 ids:  [1]
   #       responses:
   #         "200":
   #           description: Deleted
@@ -228,4 +186,30 @@ paths:
         "201":
           description: Created
         "400":
-          description: Bad Request         
+          description: Bad Request       
+            
+  #   /product/delete/list:
+  #     delete:
+  #       summary: delete an Product
+  #       description: Logged in users can delete an Product.
+  #       tags: [Product]
+  #       security:
+  #         - bearerAuth: []
+  #       requestBody:
+  #         required: true
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: object
+  #               properties:
+  #                 ids:
+  #                   type: array
+  #                   items:
+  #                     type: number
+  #               example:
+  #                 ids:  [1]
+  #       responses:
+  #         "200":
+  #           description: Deleted
+  #         "400":
+  #           description:  Bad Request

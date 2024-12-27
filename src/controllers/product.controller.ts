@@ -61,7 +61,7 @@ class ProductController {
     }).send(res);
   };
 
-  searchProductBuUser = async (req: CustomRequest, res: Response) => {
+  searchProductByUser = async (req: CustomRequest, res: Response) => {
     const query = get(req, "query");
     const metadata = await ProductFactory.searchProduct({
       search: query?.search || "",
@@ -72,7 +72,7 @@ class ProductController {
     }).send(res);
   };
 
-  getAllProduct = async (req: CustomRequest, res: Response) => {
+  findProducts = async (req: CustomRequest, res: Response) => {
     const query = get(req, "query");
     const { filter, limit, sort, select, page } = query;
     const metadata = await ProductFactory.findAllProducts({

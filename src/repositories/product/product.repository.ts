@@ -109,7 +109,7 @@ class ProductRepository extends ProductBaseRepository<IProduct> implements IProd
   }): Promise<IProduct[]> {
     const skip = (page - 1) * limit;
     return new Promise((resolve, reject) =>
-      productModel
+      this.entity
         .find(filter)
         .sort({ _id: sort === "ctime" ? -1 : 1 })
         .skip(skip)
